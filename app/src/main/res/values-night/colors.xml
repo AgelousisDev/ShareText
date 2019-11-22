@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#252525</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#9F6986</color>
+    <color name="colorAccentDark">#925375</color>
+    <color name="colorAccentLight">#AD7E97</color>
+    <color name="whiteTwo">#000000</color>
+    <color name="grey">#FFFFFF</color>
+    <color name="yellowColor">#F7DD4A</color>
+    <color name="green">#A4B05E</color>
+    <color name="darkGrey">#707070</color>
+    <color name="red">#E57373</color>
+    <color name="dialogFooterBackground">#252525</color>
+</resources>

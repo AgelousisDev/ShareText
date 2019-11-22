@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "540332823297",
+    "firebase_url": "https://sharetext-7fc97.firebaseio.com",
+    "project_id": "sharetext-7fc97",
+    "storage_bucket": "sharetext-7fc97.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540332823297:android:461c9871450dd1123c8100",
+        "android_client_info": {
+          "package_name": "com.agelousis.sharetext"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540332823297-956eujvdeabn2cued593e0ahscp6cbhf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW33BWY6XU58D7KSNfQEGm42fYL91vVcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540332823297-956eujvdeabn2cued593e0ahscp6cbhf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigationShareText"
+        android:icon="@drawable/ic_text_editor"
+        android:title="@string/share_text_label" />
+
+    <item
+        android:id="@+id/navigationSaved"
+        android:icon="@drawable/ic_saved_text"
+        android:title="@string/saved_label" />
+
+    <item
+        android:id="@+id/navigationNotifications"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/title_notifications" />
+
+</menu>

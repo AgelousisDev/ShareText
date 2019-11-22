@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BasicTextFieldLayout">
+        <attr name="hint" format="string|reference" />
+        <attr name="inputTextType" format="enum">
+            <enum name="TEXT" value="0"/>
+            <enum name="NUMBER" value="1" />
+            <enum name="IP_ADDRESS" value="2" />
+        </attr>
+        <attr name="isLastField" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="BasicButton">
+        <attr name="buttonBackgroundColor" format="string|reference" />
+    </declare-styleable>
+
+</resources>

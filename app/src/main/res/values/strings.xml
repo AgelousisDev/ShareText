@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">ShareText</string>
+    <string name="enter_credentials_label">Enter Credentials</string>
+    <string name="ip_address_label">IP Address</string>
+    <string name="port_label">Port</string>
+    <string name="connect_label">Connect</string>
+    <string name="instructions_label">Instructions</string>
+    <string name="share_text_instructions"><![CDATA[• Download the ShareText app from <br/>&#160;&#160;<a href="https://snapcraft.io/store">Ubuntu Store</a><br/>• Open the app<br/>• Click on the \"Connect your Android <br/>&#160;&#160;Device\"<br/>• Enter credentials in this form<br/>• Click \"Connect\"<br/>• Start sharing text instantly]]></string>
+    <string name="ok_label">OK</string>
+    <string name="contact_developer_header_label">Contact ShareText Developer</string>
+    <string name="send_email_label">Send an Email</string>
+    <string name="internet_connection_not_available_label">Internet connection is not available</string>
+    <string name="device_connected_message">%s is Connected</string>
+    <string name="connection_failed_label"><![CDATA[&#160;&#160;Connection Failed!!! Make sure that you entered the correct IPAddress &amp; the PortNumber. Also make sure that you have clicked the \'Search for Android Device\' in the desktop app before clicking \'Connect\' here.<br /><br />&#160;&#160;* If you try to connect second time with the same port number, it will fail, so reopen the apps in order to get a new PortNumber from the desktop app. Hope it helps&#8230;]]></string>
+    <string name="field_required_error">Field is required</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="share_text_label">Share Text</string>
+    <string name="saved_label">Saved</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="warning_label">Warning</string>
+    <string name="dark_mode_label">Enable Dark Mode</string>
+    <string name="remember_last_ip_address_label">Remember last IPAddress</string>
+    <string name="settings_label">Settings</string>
+    <string name="enter_message_here_label">Enter text here&#8230;</string>
+</resources>
