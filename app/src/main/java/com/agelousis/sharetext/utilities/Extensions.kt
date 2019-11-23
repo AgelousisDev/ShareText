@@ -17,6 +17,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -61,6 +62,11 @@ inline val @receiver:ColorInt Int.darken
         view.setImageResource(drawable)
     }
 
+@BindingAdapter("underline")
+    fun setUnderline(view: AppCompatTextView, value: String) {
+        if (value.isLink) view.text = String.format(view.context.resources.getString(R.string.link_value_text), value).toHtml()
+    }
+
 fun PackageManager.isPackageInstalled(packageName: String): Boolean {
     var found = true
     try {
@@ -75,7 +81,7 @@ fun PackageManager.isPackageInstalled(packageName: String): Boolean {
 val String?.messageModel: MessageModel?
     get() = this?.let {
         with(JSONObject(it)) {
-            MessageModel(type = this.getString(Constants.MESSAGE_TYPE), body = Constants.MESSAGE_BODY)
+            MessageModel(type = this.getString(Constants.MESSAGE_TYPE), body = Constants.MESSAGE_BODY, isInstantMessage = this.getBoolean(Constants.INSTANT_VALUE))
         }
     }
 
@@ -154,4 +160,21 @@ fun Context.getLastSavedIPAddress(): String? {
         }
     }
 }
+
+fun <T> T?.whenNull(receiver: () -> Unit): T? {
+    return if (this == null) {
+        receiver.invoke()
+        null
+    } else this
+}
+
+fun <T> T?.otherwise(receiver: (unwrapped: T) -> Unit): T? {
+    return if (this != null) {
+        receiver.invoke(this)
+        this
+    } else null
+}
+
+val String?.isLink: Boolean
+    get() = this?.startsWith("https://") == true || this?.startsWith("http://") == true
 

@@ -22,4 +22,6 @@
     <string name="remember_last_ip_address_label">Remember last IPAddress</string>
     <string name="settings_label">Settings</string>
     <string name="enter_message_here_label">Enter text here&#8230;</string>
+    <string name="empty_shared_text_list_label">There are no shared texts yet&#8230;</string>
+    <string name="link_value_text" translatable="false"><![CDATA[<u>%s</u>]]></string>
 </resources>

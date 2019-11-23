@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="com.agelousis.sharetext.utilities.ExtensionsKt" />
+        <variable
+            name="item"
+            type="com.agelousis.sharetext.client_socket.models.MessageModel" />
+        <variable
+            name="presenter"
+            type="com.agelousis.sharetext.main.ui.share_text.presenter.MessagePresenter" />
+    </data>
+<androidx.cardview.widget.CardView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/colorAccent"
+    app:cardCornerRadius="20dp"
+    app:contentPadding="@dimen/nav_header_vertical_spacing"
+    android:clickable="true"
+    android:focusable="true"
+    android:onClick="@{() -> presenter.onMessageClicked(item)}">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/messageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:gravity="center_vertical|center_horizontal"
+        android:fontFamily="@font/ubuntu_monospace"
+        android:text="@{item.body}"
+        tools:text="This is a message"
+        android:textColor="@color/colorPrimary"
+        app:underline="@{item.body}"/>
+
+</androidx.cardview.widget.CardView>
+</layout>
