@@ -1,10 +1,12 @@
 package com.agelousis.sharetext.utilities
 
+import com.agelousis.sharetext.client_socket.models.ServerHost
+
 
 typealias AnimationCompletionBlock = () -> Unit
 typealias ImeActionDoneCompletionBlock = () -> Unit
 typealias InternetConnectionBlock = (Boolean) -> Unit
-typealias ConnectServiceBlock = (Boolean) -> Unit
+typealias ConnectServiceBlock = (ServerHost?) -> Unit
 typealias FocusChangeCompletionBlock = (Boolean) -> Unit
 object Constants {
     const val PREFERENCES_TAG = "MainPreferences"

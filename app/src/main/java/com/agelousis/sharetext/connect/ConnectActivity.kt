@@ -17,10 +17,7 @@ import com.agelousis.sharetext.custom.dialogs.BasicDialogType
 import com.agelousis.sharetext.custom.loader_dialog.LoaderDialog
 import com.agelousis.sharetext.main.MainActivity
 import com.agelousis.sharetext.main.ui.share_text.models.HeaderRow
-import com.agelousis.sharetext.utilities.Constants
-import com.agelousis.sharetext.utilities.areIPAddressesRemembered
-import com.agelousis.sharetext.utilities.getLastSavedIPAddress
-import com.agelousis.sharetext.utilities.saveIPAddress
+import com.agelousis.sharetext.utilities.*
 import kotlinx.android.synthetic.main.activity_connect.*
 
 class ConnectActivity : AppCompatActivity() {
@@ -33,30 +30,30 @@ class ConnectActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        BasicDialog.show(supportFragmentManager = supportFragmentManager, dialogType = with(BasicDialogType.INSTRUCTIONS) { text = resources.getString(R.string.share_text_instructions); icon = R.drawable.ic_info; headerBackgroundColor = ContextCompat.getColor(this@ConnectActivity, R.color.colorAccent); this})
+        BasicDialog.show(supportFragmentManager = supportFragmentManager, dialogType = BasicDialogType(title = resources.getString(R.string.instructions_label),text = resources.getString(R.string.share_text_instructions), icon = R.drawable.ic_info, headerBackgroundColor = ContextCompat.getColor(this@ConnectActivity, R.color.colorAccent)))
         checkSavedValues()
 
-        instructionsIconButton.setOnClickListener { BasicDialog.show(supportFragmentManager, dialogType = with(BasicDialogType.INSTRUCTIONS) { text = resources.getString(R.string.share_text_instructions); icon = R.drawable.ic_info; this}) }
+        instructionsIconButton.setOnClickListener { BasicDialog.show(supportFragmentManager = supportFragmentManager, dialogType = BasicDialogType(title = resources.getString(R.string.instructions_label),text = resources.getString(R.string.share_text_instructions), icon = R.drawable.ic_info, headerBackgroundColor = ContextCompat.getColor(this@ConnectActivity, R.color.colorAccent))) }
         moreButton.setOnClickListener { BottomSheetFragment.show(supportFragmentManager = supportFragmentManager) }
         connectButton.setOnClickListener {
-            startActivity(Intent(this@ConnectActivity, MainActivity::class.java))
-            /*isFormValidated {
+            //startActivity(Intent(this@ConnectActivity, MainActivity::class.java))
+            isFormValidated {
                 if (getSharedPreferences(Constants.PREFERENCES_TAG, Context.MODE_PRIVATE).areIPAddressesRemembered)
                     saveIPAddress(ipAddress = ipAddressLayout.text)
                 LoaderDialog.show(supportFragmentManager = supportFragmentManager)
                 ConnectService(ipAddress = ipAddressLayout.text ?: "", port = portLayout.text?.toInt() ?: 0, body = String.format(resources.getString(R.string.device_connected_message), Build.MODEL)) {
-                    when(it) {
-                        true -> {
-                            LoaderDialog.hide(supportFragmentManager = supportFragmentManager)
-                            startActivity(Intent(this@ConnectActivity, MainActivity::class.java))
-                        }
-                        false -> {
-                            LoaderDialog.hide(supportFragmentManager = supportFragmentManager)
-                            BasicDialog.show(supportFragmentManager = supportFragmentManager, dialogType = with(BasicDialogType.WARNING) { text = resources.getString(R.string.connection_failed_label); icon = R.drawable.ic_exclamation_mark; headerBackgroundColor = ContextCompat.getColor(this@ConnectActivity, R.color.red); this})
-                        }
+                    LoaderDialog.hide(supportFragmentManager = supportFragmentManager)
+                    it.whenNull {
+                        BasicDialog.show(supportFragmentManager = supportFragmentManager, dialogType = BasicDialogType(title = resources.getString(R.string.warning_label), text = resources.getString(R.string.connection_failed_label), icon = R.drawable.ic_exclamation_mark, headerBackgroundColor = ContextCompat.getColor(this@ConnectActivity, R.color.red)))
+                    }?.otherwise {
+                        portLayout.text = ""
+                        startActivity(with(Intent(this@ConnectActivity, MainActivity::class.java)) {
+                            putExtra(MainActivity.SERVER_HOST_EXTRA, it)
+                            this
+                        })
                     }
                 }.execute()
-            }*/
+            }
         }
     }
 

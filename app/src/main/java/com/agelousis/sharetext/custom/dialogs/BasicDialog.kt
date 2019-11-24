@@ -38,10 +38,21 @@ class BasicDialog(private val dialogType: BasicDialogType): DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        when(dialogType) {
-            BasicDialogType.INSTRUCTIONS -> showInstructions(view = view)
-            BasicDialogType.WARNING -> showWarning(view = view)
-        }
+        configureUI(view = view)
+    }
+
+    private fun configureUI(view: View) {
+        val context = context.takeIf { it != null } ?: return
+        view.basicDialogHeader.background.colorFilter = PorterDuffColorFilter(dialogType.headerBackgroundColor ?: ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN)
+        view.basicDialogHeaderTitle.text = dialogType.title ?: resources.getString(R.string.instructions_label)
+        view.basicDialogHeaderImage.setImageResource(dialogType.icon ?: R.drawable.ic_info)
+        view.basicDialogInstructionsText.text = dialogType.text?.toHtml()
+        view.basicDialogInstructionsText.movementMethod = InternalLinkMovementMethod(onLinkClickedBlock = {
+            context.openWebViewIntent(urlString = it)
+            true
+        })
+        view.basicDialogOkButton.buttonBackgroundColor = String.format("#%06X", 0xFFFFFF and (dialogType.headerBackgroundColor ?: ContextCompat.getColor(context, R.color.colorAccent)))
+        view.basicDialogOkButton.setOnClickListener { dismiss(); dialogType.basicDialogButtonBlock?.invoke() ?: dismiss() }
     }
 
     private fun showInstructions(view: View) {

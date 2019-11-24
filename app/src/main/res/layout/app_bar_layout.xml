@@ -2,6 +2,7 @@
 <com.google.android.material.appbar.AppBarLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/AppTheme.AppBarOverlay"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -10,8 +11,25 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/AppTheme.PopupOverlay"
-        app:title="test"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:contentInsetStartWithNavigation="0dp" />
+        app:contentInsetStartWithNavigation="0dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/toolbarIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_desktop" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/nav_header_vertical_spacing"
+            android:fontFamily="@font/ubuntu_mono"
+            android:textStyle="bold"
+            android:textColor="@color/textNightColor"
+            tools:text="Asus Desktop"/>
+
+    </androidx.appcompat.widget.Toolbar>
 
 </com.google.android.material.appbar.AppBarLayout>
