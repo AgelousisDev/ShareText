@@ -16,6 +16,7 @@ import com.agelousis.sharetext.custom.dialogs.BasicDialog
 import com.agelousis.sharetext.custom.dialogs.BasicDialogType
 import com.agelousis.sharetext.custom.loader_dialog.LoaderDialog
 import com.agelousis.sharetext.main.MainActivity
+import com.agelousis.sharetext.main.ui.share_text.models.HeaderRow
 import com.agelousis.sharetext.utilities.Constants
 import com.agelousis.sharetext.utilities.areIPAddressesRemembered
 import com.agelousis.sharetext.utilities.getLastSavedIPAddress
@@ -73,7 +74,7 @@ class ConnectActivity : AppCompatActivity() {
     }
 
     private fun configureRecyclerView() {
-        val adapter = ContactAdapter(contactList = arrayListOf(resources.getString(R.string.contact_developer_header_label), ContactType.FACEBOOK, ContactType.INSTAGRAM, ContactType.LINKEDIN, ContactType.EMAIL))
+        val adapter = ContactAdapter(contactList = arrayListOf(HeaderRow(title = resources.getString(R.string.contact_developer_header_label)), ContactType.FACEBOOK, ContactType.INSTAGRAM, ContactType.LINKEDIN, ContactType.EMAIL))
         val gridLayoutManager = GridLayoutManager(this@ConnectActivity, 4)
         gridLayoutManager.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int) = when(position) { 0 -> 4; else -> 1 }

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.agelousis.sharetext.R
 import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.main.ui.share_text.adapters.ShareTextAdapter
-import com.agelousis.sharetext.main.ui.share_text.models.EmptyRow
 import com.agelousis.sharetext.utilities.Constants
 import com.google.android.flexbox.*
 import kotlinx.android.synthetic.main.fragment_share_text.view.*

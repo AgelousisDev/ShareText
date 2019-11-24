@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun configureUI() {
+        viewPager.offscreenPageLimit = 3
         viewPager.adapter = MainFragmentPagerAdapter(fragmentManager = supportFragmentManager)
         navView.setOnNavigationItemSelectedListener(this)
         viewPager.addOnPageChangeListener(this)

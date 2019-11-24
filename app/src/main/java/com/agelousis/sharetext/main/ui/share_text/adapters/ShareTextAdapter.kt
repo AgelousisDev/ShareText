@@ -5,10 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.databinding.EmptyRowLayoutBinding
+import com.agelousis.sharetext.databinding.HeaderRowLayoutBinding
 import com.agelousis.sharetext.databinding.MessageRowLayoutBinding
 import com.agelousis.sharetext.main.ui.share_text.enums.ShareTextAdapterViewType
 import com.agelousis.sharetext.main.ui.share_text.models.EmptyRow
+import com.agelousis.sharetext.main.ui.share_text.models.HeaderRow
 import com.agelousis.sharetext.main.ui.share_text.view_holders.EmptyViewHolder
+import com.agelousis.sharetext.connect.view_holders.HeaderViewHolder
 import com.agelousis.sharetext.main.ui.share_text.view_holders.MessageViewHolder
 
 class ShareTextAdapter(private val list: ArrayList<Any>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
