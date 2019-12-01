@@ -1,9 +1,7 @@
 package com.agelousis.sharetext.main.ui.share_text
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -18,6 +16,11 @@ class ShareTextFragment : Fragment() {
 
     private lateinit var shareTextViewModel: ShareTextViewModel
     private val list = arrayListOf<Any>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         shareTextViewModel = ViewModelProviders.of(this).get(ShareTextViewModel::class.java)
@@ -42,7 +45,18 @@ class ShareTextFragment : Fragment() {
         view.shareTextRecyclerView.itemAnimator = DefaultItemAnimator()
         view.shareTextRecyclerView.layoutManager = flexLayoutManager
         view.shareTextRecyclerView.adapter = ShareTextAdapter(list = list)
-        flexLayoutManager.scrollToPosition(list.size - 1)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_activity_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.menuSave -> {}
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

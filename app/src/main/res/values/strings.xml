@@ -25,4 +25,6 @@
     <string name="empty_shared_text_list_label">There are no shared texts yet&#8230;</string>
     <string name="link_value_text" translatable="false"><![CDATA[<u>%s</u>]]></string>
     <string name="exit_share_text_message"><![CDATA[Do you want to exit?<br />Notice that the connection will be lost&#8230;]]></string>
+    <string name="save_label">Save</string>
+    <string name="close_label">Close</string>
 </resources>

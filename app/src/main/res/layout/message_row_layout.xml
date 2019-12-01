@@ -12,6 +12,7 @@
             type="com.agelousis.sharetext.main.ui.share_text.presenter.MessagePresenter" />
     </data>
 <androidx.cardview.widget.CardView
+    android:id="@+id/messageRowCardView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:cardUseCompatPadding="true"
@@ -23,7 +24,7 @@
     android:onClick="@{() -> presenter.onMessageClicked(item)}">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/messageTextView"
+        android:id="@+id/messageRowTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"

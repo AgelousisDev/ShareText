@@ -1,5 +1,6 @@
 package com.agelousis.sharetext.utilities
 
+import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.client_socket.models.ServerHost
 
 
@@ -8,6 +9,7 @@ typealias ImeActionDoneCompletionBlock = () -> Unit
 typealias InternetConnectionBlock = (Boolean) -> Unit
 typealias ConnectServiceBlock = (ServerHost?) -> Unit
 typealias FocusChangeCompletionBlock = (Boolean) -> Unit
+typealias MessageSelectedBlock = (MessageModel) -> Unit
 object Constants {
     const val PREFERENCES_TAG = "MainPreferences"
     const val DARK_MODE_VALUE = "dark_mode_value"
