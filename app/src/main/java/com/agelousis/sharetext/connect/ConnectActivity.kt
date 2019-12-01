@@ -36,8 +36,8 @@ class ConnectActivity : AppCompatActivity() {
         instructionsIconButton.setOnClickListener { BasicDialog.show(supportFragmentManager = supportFragmentManager, dialogType = BasicDialogType(title = resources.getString(R.string.instructions_label),text = resources.getString(R.string.share_text_instructions), icon = R.drawable.ic_info, headerBackgroundColor = ContextCompat.getColor(this@ConnectActivity, R.color.colorAccent))) }
         moreButton.setOnClickListener { BottomSheetFragment.show(supportFragmentManager = supportFragmentManager) }
         connectButton.setOnClickListener {
-            //startActivity(Intent(this@ConnectActivity, MainActivity::class.java))
-            isFormValidated {
+            startActivity(Intent(this@ConnectActivity, MainActivity::class.java))
+            /*isFormValidated {
                 if (getSharedPreferences(Constants.PREFERENCES_TAG, Context.MODE_PRIVATE).areIPAddressesRemembered)
                     saveIPAddress(ipAddress = ipAddressLayout.text)
                 LoaderDialog.show(supportFragmentManager = supportFragmentManager)
@@ -53,7 +53,7 @@ class ConnectActivity : AppCompatActivity() {
                         })
                     }
                 }.execute()
-            }
+            }*/
         }
     }
 

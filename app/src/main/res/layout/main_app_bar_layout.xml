@@ -6,6 +6,12 @@
     android:theme="@style/AppTheme.AppBarOverlay"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:titleEnabled="false">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -18,7 +24,8 @@
             android:id="@+id/toolbarIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_desktop" />
+            app:srcCompat="@drawable/ic_desktop"
+            app:tint="@color/colorAccent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/toolbarTitle"
@@ -27,9 +34,21 @@
             android:layout_marginStart="@dimen/nav_header_vertical_spacing"
             android:fontFamily="@font/ubuntu_mono"
             android:textStyle="bold"
-            android:textColor="@color/textNightColor"
+            android:textSize="16sp"
             tools:text="Asus Desktop"/>
 
     </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextAppearance="@style/tabLayoutStyle"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabIndicatorFullWidth="false"/>
 
 </com.google.android.material.appbar.AppBarLayout>

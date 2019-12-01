@@ -6,6 +6,7 @@ import com.agelousis.sharetext.client_socket.models.ServerHost
 import com.agelousis.sharetext.utilities.ConnectServiceBlock
 import com.agelousis.sharetext.utilities.Constants
 import com.agelousis.sharetext.utilities.initJsonMessageObject
+import com.agelousis.sharetext.utilities.messageModel
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.net.InetSocketAddress
@@ -23,7 +24,7 @@ class ConnectService(private val ipAddress: String, private val port: Int, priva
             out.writeUTF(initJsonMessageObject(type = Constants.infoMessageType, instantValue = false, body = body))
             //Get from Server
             val inputStream = DataInputStream(MainApplication.clientSocket?.getInputStream().takeIf { it != null } ?: return null)
-            return ServerHost(hostName = inputStream.readUTF())
+            return ServerHost(hostName = inputStream.readUTF().messageModel?.body)
         }
         catch (e: Exception) {
             return null

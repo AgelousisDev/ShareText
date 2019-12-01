@@ -34,14 +34,15 @@ class ShareTextFragment : Fragment() {
         view.messageTextFieldLayout.setFocusListener { println("") }
 
         // RecyclerView
-        list.addAll(listOf(MessageModel(type = Constants.textType, body = "Hello, how are you?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "I am fine you?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "This is made with RecyclerView.ViewHolder", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Did you integrate git?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "What about clicking on the item?\nEh?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Maybe a dialog to get the details of it", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Check the margins better", isInstantMessage = false), MessageModel(type = Constants.textType, body = "https://www.google.com", isInstantMessage = false)))
+        list.addAll(listOf(MessageModel(type = Constants.textType, body = "Hello, how are you?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "I am fine you?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "This is made with RecyclerView.ViewHolder", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Did you integrate git?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "What about clicking on the item?\nEh?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Maybe a dialog to get the details of it", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Check the margins better", isInstantMessage = false), MessageModel(type = Constants.textType, body = "https://www.google.com", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Hello, how are you?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "I am fine you?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "This is made with RecyclerView.ViewHolder", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Did you integrate git?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "What about clicking on the item?\nEh?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Maybe a dialog to get the details of it", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Check the margins better", isInstantMessage = false), MessageModel(type = Constants.textType, body = "https://www.google.com", isInstantMessage = false)))
         val flexLayoutManager = FlexboxLayoutManager(context, FlexDirection.ROW)
-        flexLayoutManager.flexDirection = FlexDirection.ROW
         flexLayoutManager.justifyContent = JustifyContent.CENTER
         flexLayoutManager.alignItems = AlignItems.CENTER
+        view.shareTextRecyclerView.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom -> if (bottom < oldBottom) view.shareTextRecyclerView.post { view.shareTextRecyclerView.scrollToPosition((view.shareTextRecyclerView.adapter?.itemCount ?: 0) - 1) } }
         view.shareTextRecyclerView.itemAnimator = DefaultItemAnimator()
         view.shareTextRecyclerView.layoutManager = flexLayoutManager
         view.shareTextRecyclerView.adapter = ShareTextAdapter(list = list)
+        flexLayoutManager.scrollToPosition(list.size - 1)
     }
 
 }
