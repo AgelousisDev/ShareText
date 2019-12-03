@@ -27,4 +27,5 @@
     <string name="exit_share_text_message"><![CDATA[Do you want to exit?<br />Notice that the connection will be lost&#8230;]]></string>
     <string name="save_label">Save</string>
     <string name="close_label">Close</string>
+    <string name="key_selected_messages_value">%s selected</string>
 </resources>

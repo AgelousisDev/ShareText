@@ -2,7 +2,9 @@ package com.agelousis.sharetext.main.ui.share_text
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.agelousis.sharetext.R
@@ -14,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_share_text.view.*
 
 class ShareTextFragment : Fragment() {
 
+    private var menu: Menu? = null
     private lateinit var shareTextViewModel: ShareTextViewModel
     private val list = arrayListOf<Any>()
 
@@ -45,11 +48,17 @@ class ShareTextFragment : Fragment() {
         view.shareTextRecyclerView.itemAnimator = DefaultItemAnimator()
         view.shareTextRecyclerView.layoutManager = flexLayoutManager
         view.shareTextRecyclerView.adapter = ShareTextAdapter(list = list)
+
+        // Selected Messages Observer
+        (view.shareTextRecyclerView.adapter as? ShareTextAdapter)?.selectedMessagesLiveData?.observe(this, Observer {
+            Toast.makeText(context, it.size.toString(), Toast.LENGTH_SHORT).show()
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main_activity_menu, menu)
+        this.menu = menu
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -2,19 +2,20 @@ package com.agelousis.sharetext.main.ui.share_text.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.databinding.EmptyRowLayoutBinding
-import com.agelousis.sharetext.databinding.HeaderRowLayoutBinding
 import com.agelousis.sharetext.databinding.MessageRowLayoutBinding
 import com.agelousis.sharetext.main.ui.share_text.enums.ShareTextAdapterViewType
 import com.agelousis.sharetext.main.ui.share_text.models.EmptyRow
-import com.agelousis.sharetext.main.ui.share_text.models.HeaderRow
 import com.agelousis.sharetext.main.ui.share_text.view_holders.EmptyViewHolder
-import com.agelousis.sharetext.connect.view_holders.HeaderViewHolder
 import com.agelousis.sharetext.main.ui.share_text.view_holders.MessageViewHolder
 
 class ShareTextAdapter(private val list: ArrayList<Any>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    val selectedMessagesLiveData by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<MutableList<MessageModel>>() }
+    private val mSelectedMessagesList = mutableListOf<MessageModel>()
 
     override fun getItemCount(): Int = list.size
 
@@ -29,7 +30,19 @@ class ShareTextAdapter(private val list: ArrayList<Any>): RecyclerView.Adapter<R
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as? EmptyViewHolder)?.bind(emptyRow = list.getOrNull(position) as? EmptyRow ?: return)
-        (holder as? MessageViewHolder)?.bind(messageModel = list.getOrNull(position) as? MessageModel)
+        (holder as? MessageViewHolder)?.bind(messageModel = list.getOrNull(position) as? MessageModel, messageSelectedBlock = {
+            when(it?.isSelected) {
+                true -> {
+                    mSelectedMessagesList.add(it.messageModel ?: return@bind)
+                    selectedMessagesLiveData.value = mSelectedMessagesList
+                }
+                false -> {
+                    mSelectedMessagesList.remove(it.messageModel ?: return@bind)
+                    selectedMessagesLiveData.value = mSelectedMessagesList
+
+                }
+            }
+        })
     }
 
     override fun getItemViewType(position: Int): Int {
