@@ -51,4 +51,13 @@ class ShareTextAdapter(private val list: ArrayList<Any>): RecyclerView.Adapter<R
         return 0
     }
 
+    fun updateItems() {
+        notifyDataSetChanged()
+    }
+
+    fun clearSelectedItems() {
+        mSelectedMessagesList.clear()
+        selectedMessagesLiveData.value = mSelectedMessagesList
+    }
+
 }

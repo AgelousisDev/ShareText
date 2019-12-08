@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentManager
 import com.agelousis.sharetext.R
 import com.agelousis.sharetext.custom.bottom_sheet.RoundedBottomSheetDialogFragment
 import com.agelousis.sharetext.utilities.Constants
-import com.agelousis.sharetext.utilities.isNightMode
+import com.agelousis.sharetext.utilities.extensions.isNightMode
 import kotlinx.android.synthetic.main.options_sheet_fragment_layout.view.*
 
 class BottomSheetFragment: RoundedBottomSheetDialogFragment() {

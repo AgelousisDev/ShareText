@@ -1,4 +1,4 @@
-package com.agelousis.sharetext.utilities
+package com.agelousis.sharetext.utilities.extensions
 
 import android.animation.Animator
 import android.content.Context
@@ -25,10 +25,14 @@ import androidx.core.graphics.ColorUtils
 import androidx.databinding.BindingAdapter
 import com.agelousis.sharetext.R
 import com.agelousis.sharetext.client_socket.models.MessageModel
+import com.agelousis.sharetext.utilities.AnimationCompletionBlock
+import com.agelousis.sharetext.utilities.Constants
 import com.google.android.material.snackbar.Snackbar
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
+import java.lang.Exception
+import java.net.Socket
 
 fun View.startScaleAnimation(duration: Long = 1000L, animationCompletionBlock: AnimationCompletionBlock? = null) {
     this.scaleX = 0.0f
@@ -81,11 +85,12 @@ fun PackageManager.isPackageInstalled(packageName: String): Boolean {
 val String?.messageModel: MessageModel?
     get() = this?.let {
         with(JSONObject(it)) {
-            MessageModel(type = this.getString(Constants.MESSAGE_TYPE), body = Constants.MESSAGE_BODY, isInstantMessage = this.getBoolean(Constants.INSTANT_VALUE))
+            MessageModel(connectionState = this.getBoolean(Constants.CONNECTION_STATE), type = this.getString(Constants.MESSAGE_TYPE), body = this.getString(Constants.MESSAGE_BODY), isInstantMessage = this.getBoolean(Constants.INSTANT_VALUE))
         }
     }
 
-fun initJsonMessageObject(type: String, instantValue: Boolean, body: String) = with(JSONObject()) {
+fun initJsonMessageObject(connectionState: Boolean, type: String, instantValue: Boolean, body: String) = with(JSONObject()) {
+    this.put(Constants.CONNECTION_STATE, connectionState)
     this.put(Constants.MESSAGE_TYPE, type)
     this.put(Constants.INSTANT_VALUE, instantValue)
     this.put(Constants.MESSAGE_BODY, body)
@@ -177,4 +182,10 @@ fun <T> T?.otherwise(receiver: (unwrapped: T) -> Unit): T? {
 
 val String?.isLink: Boolean
     get() = this?.startsWith("https://") == true || this?.startsWith("http://") == true
+
+val Socket.receivedMessageModel: MessageModel?
+    get() = try { this.getInputStream()?.let { DataInputStream(it).readUTF().messageModel } } catch(e: Exception) { null }
+
+fun Socket.sendMessageModel(messageModelString: String) = this.getOutputStream()?.let { DataOutputStream(it).writeUTF(messageModelString) }
+
 

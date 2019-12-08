@@ -1,5 +1,6 @@
 package com.agelousis.sharetext.main
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -8,6 +9,9 @@ import com.agelousis.sharetext.client_socket.models.ServerHost
 import com.agelousis.sharetext.custom.dialogs.BasicDialog
 import com.agelousis.sharetext.custom.dialogs.BasicDialogType
 import com.agelousis.sharetext.main.pager_adapter.MainFragmentPagerAdapter
+import com.agelousis.sharetext.main.ui.share_text.ShareTextFragment
+import com.agelousis.sharetext.utilities.Constants
+import com.agelousis.sharetext.utilities.extensions.initJsonMessageObject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_app_bar_layout.*
 
@@ -15,12 +19,18 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val SERVER_HOST_EXTRA = "MainActivity=serverHostExtra"
+        const val REQUEST_CODE = 1
     }
 
     private val serverHost: ServerHost? by lazy { intent?.extras?.getParcelable<ServerHost?>(SERVER_HOST_EXTRA) }
 
     override fun onBackPressed() {
-        BasicDialog.show(supportFragmentManager = supportFragmentManager, dialogType = BasicDialogType(title = resources.getString(R.string.warning_label), text = resources.getString(R.string.exit_share_text_message), icon = R.drawable.ic_exclamation_mark, headerBackgroundColor = ContextCompat.getColor(this@MainActivity, R.color.red)) { super.onBackPressed() })
+        BasicDialog.show(supportFragmentManager = supportFragmentManager, dialogType = BasicDialogType(title = resources.getString(R.string.warning_label), text = resources.getString(R.string.exit_share_text_message), icon = R.drawable.ic_exclamation_mark, headerBackgroundColor = ContextCompat.getColor(this@MainActivity, R.color.red)) {
+            (supportFragmentManager.fragments.firstOrNull { it is ShareTextFragment } as? ShareTextFragment)?.shareTextViewModel?.outcomeMessageModelString =
+                initJsonMessageObject(connectionState = false, type = Constants.infoMessageType, instantValue = false, body = "")
+            setResult(Activity.RESULT_OK)
+            this@MainActivity.finish()
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

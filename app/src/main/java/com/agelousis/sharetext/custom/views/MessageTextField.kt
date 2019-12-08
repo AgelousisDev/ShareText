@@ -6,8 +6,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
 import com.agelousis.sharetext.R
-import com.agelousis.sharetext.utilities.FocusChangeCompletionBlock
-import com.agelousis.sharetext.utilities.ImeActionDoneCompletionBlock
+import com.agelousis.sharetext.utilities.ActionSendBlock
 import kotlinx.android.synthetic.main.message_text_field_layout.view.*
 
 class MessageTextField(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) {
@@ -18,15 +17,15 @@ class MessageTextField(context: Context, attrs: AttributeSet): FrameLayout(conte
         addView(itemView)
     }
 
-    fun setFocusListener(focusChangeCompletionBlock: FocusChangeCompletionBlock) {
-        itemView?.messageTextField?.setOnFocusChangeListener { _, hasFocus -> focusChangeCompletionBlock(hasFocus) }
-    }
-
-    fun setActionDoneListener(actionDoneCompletionBlock: ImeActionDoneCompletionBlock) {
+    fun setActionDoneListener(actionSendBlock: ActionSendBlock) {
         itemView?.messageTextField?.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEND) actionDoneCompletionBlock()
+            if (actionId == EditorInfo.IME_ACTION_SEND) itemView?.messageTextField?.text?.toString()?.let(actionSendBlock)
             true
         }
+    }
+
+    fun sendMessageButtonListener(actionSendBlock: ActionSendBlock) {
+        itemView?.sendMessageButton?.setOnClickListener { itemView?.messageTextField?.text?.toString()?.let(actionSendBlock) }
     }
 
 }

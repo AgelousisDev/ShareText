@@ -1,24 +1,35 @@
 package com.agelousis.sharetext.main.ui.share_text
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.agelousis.sharetext.R
-import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.main.ui.share_text.adapters.ShareTextAdapter
+import com.agelousis.sharetext.main.ui.share_text.enums.MessagesViewType
+import com.agelousis.sharetext.main.ui.share_text.models.EmptyRow
+import com.agelousis.sharetext.main.ui.share_text.view_model.ShareTextViewModel
 import com.agelousis.sharetext.utilities.Constants
+import com.agelousis.sharetext.utilities.extensions.initJsonMessageObject
 import com.google.android.flexbox.*
 import kotlinx.android.synthetic.main.fragment_share_text.view.*
 
 class ShareTextFragment : Fragment() {
 
+
+
     private var menu: Menu? = null
-    private lateinit var shareTextViewModel: ShareTextViewModel
-    private val list = arrayListOf<Any>()
+    var shareTextViewModel: ShareTextViewModel? = null
+    private val listOfMessages = arrayListOf<Any>()
+    private var messagesViewType: MessagesViewType? = null
+        set(value) {
+            field = value
+            showMenuItems(show = value == MessagesViewType.EDIT)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,25 +44,51 @@ class ShareTextFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configureUI(view = view)
+        configureViewModel()
     }
 
     private fun configureUI(view: View) {
-        view.messageTextFieldLayout.setActionDoneListener { println("qwerty") }
-        view.messageTextFieldLayout.setFocusListener { println("") }
+        view.messageTextFieldLayout.setActionDoneListener { shareTextViewModel?.outcomeMessageModelString = initJsonMessageObject(connectionState = true, type = Constants.textType, instantValue = false, body = it) }
+        view.messageTextFieldLayout.sendMessageButtonListener { shareTextViewModel?.outcomeMessageModelString = initJsonMessageObject(connectionState = true, type = Constants.textType, instantValue = false, body = it) }
 
         // RecyclerView
-        list.addAll(listOf(MessageModel(type = Constants.textType, body = "Hello, how are you?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "I am fine you?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "This is made with RecyclerView.ViewHolder", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Did you integrate git?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "What about clicking on the item?\nEh?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Maybe a dialog to get the details of it", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Check the margins better", isInstantMessage = false), MessageModel(type = Constants.textType, body = "https://www.google.com", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Hello, how are you?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "I am fine you?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "This is made with RecyclerView.ViewHolder", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Did you integrate git?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "What about clicking on the item?\nEh?", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Maybe a dialog to get the details of it", isInstantMessage = false), MessageModel(type = Constants.textType, body = "Check the margins better", isInstantMessage = false), MessageModel(type = Constants.textType, body = "https://www.google.com", isInstantMessage = false)))
+        listOfMessages.add(EmptyRow(title = resources.getString(R.string.empty_shared_text_list_label)))
         val flexLayoutManager = FlexboxLayoutManager(context, FlexDirection.ROW)
         flexLayoutManager.justifyContent = JustifyContent.CENTER
         flexLayoutManager.alignItems = AlignItems.CENTER
         view.shareTextRecyclerView.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom -> if (bottom < oldBottom) view.shareTextRecyclerView.post { view.shareTextRecyclerView.scrollToPosition((view.shareTextRecyclerView.adapter?.itemCount ?: 0) - 1) } }
         view.shareTextRecyclerView.itemAnimator = DefaultItemAnimator()
         view.shareTextRecyclerView.layoutManager = flexLayoutManager
-        view.shareTextRecyclerView.adapter = ShareTextAdapter(list = list)
+        view.shareTextRecyclerView.adapter = ShareTextAdapter(list = listOfMessages)
 
         // Selected Messages Observer
         (view.shareTextRecyclerView.adapter as? ShareTextAdapter)?.selectedMessagesLiveData?.observe(this, Observer {
-            Toast.makeText(context, it.size.toString(), Toast.LENGTH_SHORT).show()
+            messagesViewType = if (it.isNotEmpty()) MessagesViewType.EDIT else MessagesViewType.VIEW
+            if (it.isNotEmpty()) setSelectedMessagesCount(size = it.size)
+        })
+    }
+
+    private fun setSelectedMessagesCount(size: Int) {
+        menu?.findItem(R.id.menuSelectedItems)?.title = String.format(resources.getString(R.string.selected_messages_value), size)
+    }
+
+    private fun showMenuItems(show: Boolean) {
+        menu?.children?.forEach { it.isVisible = show }
+        if (!show) menu?.findItem(R.id.menuSelectedItems)?.title = ""
+    }
+
+    private fun configureViewModel() {
+        shareTextViewModel?.serviceIsStartingReceiving = true
+        shareTextViewModel?.messageModelLiveData?.observe(this, Observer { messageModel ->
+            listOfMessages.removeAll { it is EmptyRow }
+            listOfMessages.add(messageModel)
+            (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.updateItems()
+        })
+        shareTextViewModel?.connectionStateLiveData?.observe(this, Observer {
+            if (!it) {
+                activity?.setResult(Activity.RESULT_CANCELED)
+                activity?.finish()
+            }
         })
     }
 
@@ -63,6 +100,11 @@ class ShareTextFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
+            R.id.menuClose -> {
+                showMenuItems(show = false)
+                (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.clearSelectedItems()
+                (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.updateItems()
+            }
             R.id.menuSave -> {}
         }
         return super.onOptionsItemSelected(item)

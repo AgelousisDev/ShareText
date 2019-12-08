@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <import type="com.agelousis.sharetext.utilities.ExtensionsKt" />
+        <import type="com.agelousis.sharetext.utilities.extensions.ExtensionsKt" />
         <variable
             name="item"
             type="com.agelousis.sharetext.client_socket.models.MessageModel" />

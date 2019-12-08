@@ -5,8 +5,8 @@ import android.os.Build
 import com.agelousis.sharetext.client_socket.interfaces.IncomeMessage
 import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.utilities.Constants
-import com.agelousis.sharetext.utilities.initJsonMessageObject
-import com.agelousis.sharetext.utilities.messageModel
+import com.agelousis.sharetext.utilities.extensions.initJsonMessageObject
+import com.agelousis.sharetext.utilities.extensions.messageModel
 import java.io.*
 import java.net.*
 import java.lang.Exception
@@ -19,7 +19,13 @@ class ClientSocket(ipAddress: String, port: Int, private val incomeMessage: Inco
     init {
         thread {
             client = Socket(ipAddress, port)
-            sendMessage(message = initJsonMessageObject(type = Constants.infoMessageType, instantValue = false, body = Build.MODEL))
+            sendMessage(message = initJsonMessageObject(
+                connectionState = true,
+                type = Constants.infoMessageType,
+                instantValue = false,
+                body = Build.MODEL
+            )
+            )
         }
     }
 

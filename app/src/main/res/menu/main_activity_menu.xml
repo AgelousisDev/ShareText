@@ -3,15 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menuSelectedItems"
+        app:showAsAction="ifRoom"
+        android:title=""
+        android:visible="false"/>
+
+    <item
         android:id="@+id/menuSave"
         android:title="@string/save_label"
         android:icon="@drawable/ic_save"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
 
     <item
         android:id="@+id/menuClose"
         android:title="@string/close_label"
         android:icon="@drawable/ic_close"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
 
 </menu>

@@ -9,9 +9,9 @@ import com.agelousis.sharetext.R
 import com.agelousis.sharetext.connect.ConnectActivity
 import com.agelousis.sharetext.network.InternetConnection
 import com.agelousis.sharetext.utilities.Constants
-import com.agelousis.sharetext.utilities.isNightMode
-import com.agelousis.sharetext.utilities.showSnackbar
-import com.agelousis.sharetext.utilities.startScaleAnimation
+import com.agelousis.sharetext.utilities.extensions.isNightMode
+import com.agelousis.sharetext.utilities.extensions.showSnackbar
+import com.agelousis.sharetext.utilities.extensions.startScaleAnimation
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_splash.*
 

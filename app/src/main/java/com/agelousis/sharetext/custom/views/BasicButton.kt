@@ -9,7 +9,7 @@ import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import com.agelousis.sharetext.R
-import com.agelousis.sharetext.utilities.darken
+import com.agelousis.sharetext.utilities.extensions.darken
 
 class BasicButton(context: Context, attrs: AttributeSet): AppCompatButton(context, attrs) {
 

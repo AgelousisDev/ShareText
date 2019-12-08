@@ -10,6 +10,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="android:actionMenuTextAppearance">@style/ActionButtonStyle</item>
     </style>
 
 </resources>

@@ -8,8 +8,8 @@ import com.agelousis.sharetext.databinding.MessageRowLayoutBinding
 import com.agelousis.sharetext.main.ui.share_text.presenter.MessagePresenter
 import com.agelousis.sharetext.main.ui.share_text.view_holders.models.SelectionModel
 import com.agelousis.sharetext.utilities.MessageSelectedBlock
-import com.agelousis.sharetext.utilities.isLink
-import com.agelousis.sharetext.utilities.openWebViewIntent
+import com.agelousis.sharetext.utilities.extensions.isLink
+import com.agelousis.sharetext.utilities.extensions.openWebViewIntent
 
 class MessageViewHolder(private val binding: MessageRowLayoutBinding): RecyclerView.ViewHolder(binding.root) {
 

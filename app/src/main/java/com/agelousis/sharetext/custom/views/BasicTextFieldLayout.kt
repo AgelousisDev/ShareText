@@ -11,7 +11,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
 import com.agelousis.sharetext.R
 import com.agelousis.sharetext.custom.classes.IPAddressInputFilter
-import com.agelousis.sharetext.utilities.ImeActionDoneCompletionBlock
 import kotlinx.android.synthetic.main.basic_text_field_layout.view.*
 
 class BasicTextFieldLayout(context: Context, attrs: AttributeSet?): FrameLayout(context, attrs) {
@@ -64,13 +63,6 @@ class BasicTextFieldLayout(context: Context, attrs: AttributeSet?): FrameLayout(
 
     fun setErrorMessage(message: String) {
         itemView?.textInputLayout?.error = message
-    }
-
-    fun setActionDoneListener(imeActionDoneCompletionBlock: ImeActionDoneCompletionBlock) {
-        itemView?.textInputEditText?.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) imeActionDoneCompletionBlock()
-            true
-        }
     }
 
     private fun configureTextWatcher() {

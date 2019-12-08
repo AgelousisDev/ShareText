@@ -11,8 +11,8 @@ import com.agelousis.sharetext.connect.enums.ContactType
 import com.agelousis.sharetext.connect.presenter.ContactUsPresenter
 import com.agelousis.sharetext.databinding.ContactRowLayoutBinding
 import com.agelousis.sharetext.utilities.Constants
-import com.agelousis.sharetext.utilities.isPackageInstalled
-import com.agelousis.sharetext.utilities.openWebViewIntent
+import com.agelousis.sharetext.utilities.extensions.isPackageInstalled
+import com.agelousis.sharetext.utilities.extensions.openWebViewIntent
 
 class ContactViewHolder(private val context: Context, private val binding: ContactRowLayoutBinding): RecyclerView.ViewHolder(binding.root) {
     fun bind(item: ContactType) {

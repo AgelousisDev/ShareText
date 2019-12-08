@@ -3,13 +3,11 @@ package com.agelousis.sharetext.utilities
 import com.agelousis.sharetext.client_socket.models.ServerHost
 import com.agelousis.sharetext.main.ui.share_text.view_holders.models.SelectionModel
 
-
 typealias AnimationCompletionBlock = () -> Unit
-typealias ImeActionDoneCompletionBlock = () -> Unit
 typealias InternetConnectionBlock = (Boolean) -> Unit
 typealias ConnectServiceBlock = (ServerHost?) -> Unit
-typealias FocusChangeCompletionBlock = (Boolean) -> Unit
 typealias MessageSelectedBlock = (SelectionModel?) -> Unit
+typealias ActionSendBlock = (String) -> Unit
 object Constants {
     const val PREFERENCES_TAG = "MainPreferences"
     const val DARK_MODE_VALUE = "dark_mode_value"
@@ -35,6 +33,7 @@ object Constants {
     const val MESSAGE_TYPE = "type"
     const val INSTANT_VALUE = "instant"
     const val MESSAGE_BODY = "body"
+    const val CONNECTION_STATE = "connection"
     const val infoMessageType = "text/info"
     const val textType = "text/plain"
     const val IP_ADDRESSES_FILE = "ipAddresses.json"

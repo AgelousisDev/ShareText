@@ -13,8 +13,8 @@ import androidx.fragment.app.FragmentManager
 import com.agelousis.sharetext.R
 import com.agelousis.sharetext.custom.classes.InternalLinkMovementMethod
 import com.agelousis.sharetext.utilities.Constants
-import com.agelousis.sharetext.utilities.openWebViewIntent
-import com.agelousis.sharetext.utilities.toHtml
+import com.agelousis.sharetext.utilities.extensions.openWebViewIntent
+import com.agelousis.sharetext.utilities.extensions.toHtml
 import kotlinx.android.synthetic.main.basic_dialog_layout.view.*
 
 
