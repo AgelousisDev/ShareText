@@ -17,7 +17,7 @@ class ConnectService(private val ipAddress: String, private val port: Int, priva
             MainApplication.clientSocket = Socket()
             MainApplication.clientSocket?.connect(InetSocketAddress(ipAddress, port), 10000)
             //Write to Server
-            MainApplication.clientSocket?.sendMessageModel(messageModelString = initJsonMessageObject(connectionState = true, type = Constants.infoMessageType, instantValue = false, body = body))
+            MainApplication.clientSocket?.sendMessageModel(messageModelString = initJsonMessageObject(type = Constants.infoMessageType, instantValue = false, body = body))
             //Get from Server
             ServerHost(hostName = MainApplication.clientSocket?.receivedMessageModel?.body)
         }

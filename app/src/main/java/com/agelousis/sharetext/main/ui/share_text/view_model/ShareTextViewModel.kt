@@ -12,11 +12,13 @@ import com.agelousis.sharetext.utilities.extensions.whenNull
 
 class ShareTextViewModel : ViewModel(), IncomeMessage {
 
+    var clientSocketIncomeService: ClientSocketIncomeService? = null
     var serviceIsStartingReceiving: Boolean = false
         set(value) {
             field = value
             if (value) {
-                ClientSocketIncomeService(incomeMessage = this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+                clientSocketIncomeService = ClientSocketIncomeService(incomeMessage = this)
+                clientSocketIncomeService?.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
             }
         }
 
@@ -32,7 +34,9 @@ class ShareTextViewModel : ViewModel(), IncomeMessage {
         message.whenNull {
             connectionStateLiveData.value = false
         }.otherwise {
-            messageModelLiveData.value = it
+            connectionStateLiveData.value = it.connectionState
+            if (!it.connectionState) clientSocketIncomeService?.cancel(true)
+            if (it.connectionState) messageModelLiveData.value = it
         }
     }
 

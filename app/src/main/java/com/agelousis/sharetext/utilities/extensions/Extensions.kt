@@ -89,7 +89,7 @@ val String?.messageModel: MessageModel?
         }
     }
 
-fun initJsonMessageObject(connectionState: Boolean, type: String, instantValue: Boolean, body: String) = with(JSONObject()) {
+fun initJsonMessageObject(connectionState: Boolean = true, type: String, instantValue: Boolean, body: String) = with(JSONObject()) {
     this.put(Constants.CONNECTION_STATE, connectionState)
     this.put(Constants.MESSAGE_TYPE, type)
     this.put(Constants.INSTANT_VALUE, instantValue)

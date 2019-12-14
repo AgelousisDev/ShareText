@@ -20,7 +20,6 @@ class ClientSocket(ipAddress: String, port: Int, private val incomeMessage: Inco
         thread {
             client = Socket(ipAddress, port)
             sendMessage(message = initJsonMessageObject(
-                connectionState = true,
                 type = Constants.infoMessageType,
                 instantValue = false,
                 body = Build.MODEL

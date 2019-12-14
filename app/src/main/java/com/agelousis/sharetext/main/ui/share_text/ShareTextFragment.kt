@@ -48,8 +48,8 @@ class ShareTextFragment : Fragment() {
     }
 
     private fun configureUI(view: View) {
-        view.messageTextFieldLayout.setActionDoneListener { shareTextViewModel?.outcomeMessageModelString = initJsonMessageObject(connectionState = true, type = Constants.textType, instantValue = false, body = it) }
-        view.messageTextFieldLayout.sendMessageButtonListener { shareTextViewModel?.outcomeMessageModelString = initJsonMessageObject(connectionState = true, type = Constants.textType, instantValue = false, body = it) }
+        view.messageTextFieldLayout.setActionDoneListener { shareTextViewModel?.outcomeMessageModelString = initJsonMessageObject(type = Constants.textType, instantValue = false, body = it) }
+        view.messageTextFieldLayout.sendMessageButtonListener { shareTextViewModel?.outcomeMessageModelString = initJsonMessageObject(type = Constants.textType, instantValue = false, body = it) }
 
         // RecyclerView
         listOfMessages.add(EmptyRow(title = resources.getString(R.string.empty_shared_text_list_label)))
