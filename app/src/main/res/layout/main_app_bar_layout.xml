@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout android:layout_width="match_parent"
+<com.google.android.material.appbar.AppBarLayout
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/AppTheme.AppBarOverlay"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -12,11 +12,10 @@
         android:fitsSystemWindows="true"
         app:titleEnabled="false">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:theme="@style/AppTheme.PopupOverlay"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:contentInsetStartWithNavigation="0dp">
 
@@ -27,7 +26,7 @@
             app:srcCompat="@drawable/ic_desktop"
             app:tint="@color/colorAccent"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/toolbarTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +36,7 @@
             android:textSize="16sp"
             tools:text="Asus Desktop"/>
 
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -46,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:backgroundTint="@color/colorPrimary"
         app:tabSelectedTextColor="@color/colorAccent"
         app:tabTextAppearance="@style/tabLayoutStyle"
         app:tabIndicatorColor="@color/colorAccent"

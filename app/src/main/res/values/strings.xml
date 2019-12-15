@@ -5,7 +5,7 @@
     <string name="port_label">Port</string>
     <string name="connect_label">Connect</string>
     <string name="instructions_label">Instructions</string>
-    <string name="share_text_instructions"><![CDATA[• Download the ShareText app from <br/>&#160;&#160;<a href="https://snapcraft.io/store">Ubuntu Store</a><br/>• Open the app<br/>• Click on the \"Connect your Android <br/>&#160;&#160;Device\"<br/>• Enter credentials in this form<br/>• Click \"Connect\"<br/>• Start sharing text instantly]]></string>
+    <string name="share_text_instructions"><![CDATA[• Download the ShareText app from <br/>&#160;&#160;<a href="https://snapcraft.io/store">Ubuntu Store</a><br/>• Open the app<br/>• Both devices must be connected to the <br/>&#160;&#160;same network<br/>• Click on the \"Connect your Android <br/>&#160;&#160;Device\"<br/>• Enter credentials in this form<br/>• Click \"Connect\"<br/>• Start sharing text instantly]]></string>
     <string name="ok_label">OK</string>
     <string name="contact_developer_header_label">Contact ShareText Developer</string>
     <string name="send_email_label">Send an Email</string>

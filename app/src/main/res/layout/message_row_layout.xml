@@ -11,7 +11,7 @@
             name="presenter"
             type="com.agelousis.sharetext.main.ui.share_text.presenter.MessagePresenter" />
     </data>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     android:id="@+id/messageRowCardView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
     android:focusable="true"
     android:onClick="@{() -> presenter.onMessageClicked(item)}">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/messageRowTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,5 +35,5 @@
         android:textColor="@color/colorPrimary"
         app:underline="@{item.body}"/>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
 </layout>

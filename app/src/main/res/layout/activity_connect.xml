@@ -42,7 +42,7 @@
         app:srcCompat="@drawable/share_text_header_icon" />
 
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
             android:clipToPadding="false"
             android:padding="@dimen/activity_horizontal_margin">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/credentialsLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,30 +96,28 @@
                 android:id="@+id/portLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
                 app:hint="@string/port_label"
                 app:inputTextType="NUMBER"
                 app:isLastField="true"
                 app:layout_constraintTop_toBottomOf="@+id/ipAddressLayout" />
 
-            <com.agelousis.sharetext.custom.views.BasicButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/connectButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_height="50dp"
                 android:fontFamily="@font/ubuntu_monospace"
                 android:text="@string/connect_label"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteTwo"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:buttonBackgroundColor="@color/colorAccent"
-                app:layout_constraintTop_toBottomOf="@+id/portLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/portLayout"
+                app:cornerRadius="20dp"
+                app:backgroundTint="@color/colorAccent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
-
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contactRecyclerView"

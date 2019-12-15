@@ -44,7 +44,7 @@ class ShareTextFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configureUI(view = view)
-        configureViewModel()
+        //configureViewModel()
     }
 
     private fun configureUI(view: View) {

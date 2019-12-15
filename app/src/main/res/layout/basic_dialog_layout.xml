@@ -19,7 +19,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/basicDialogHeaderTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         android:padding="@dimen/activity_horizontal_margin"
         android:clipToPadding="false">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/basicDialogInstructionsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,17 +56,18 @@
             android:layout_marginBottom="8dp"
             android:background="@color/grey"/>
 
-        <com.agelousis.sharetext.custom.views.BasicButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/basicDialogOkButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:fontFamily="@font/ubuntu_monospace"
             android:textColor="@color/whiteTwo"
             android:textStyle="bold"
             android:textSize="16sp"
             android:text="@string/ok_label"
             android:textAllCaps="false"
-            app:buttonBackgroundColor="@color/colorAccent" />
+            app:cornerRadius="20dp"
+            app:backgroundTint="@color/colorAccent" />
 
     </LinearLayout>
 

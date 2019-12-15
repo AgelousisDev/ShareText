@@ -22,7 +22,7 @@
         app:srcCompat="@drawable/ic_empty"
         app:tint="@color/colorAccent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"

@@ -11,8 +11,4 @@
         <attr name="isLastField" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="BasicButton">
-        <attr name="buttonBackgroundColor" format="string|reference" />
-    </declare-styleable>
-
 </resources>

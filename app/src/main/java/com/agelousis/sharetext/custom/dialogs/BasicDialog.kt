@@ -51,32 +51,8 @@ class BasicDialog(private val dialogType: BasicDialogType): DialogFragment() {
             context.openWebViewIntent(urlString = it)
             true
         })
-        view.basicDialogOkButton.buttonBackgroundColor = String.format("#%06X", 0xFFFFFF and (dialogType.headerBackgroundColor ?: ContextCompat.getColor(context, R.color.colorAccent)))
+        view.basicDialogOkButton.setBackgroundColor((dialogType.headerBackgroundColor ?: ContextCompat.getColor(context, R.color.colorAccent)))
         view.basicDialogOkButton.setOnClickListener { dismiss(); dialogType.basicDialogButtonBlock?.invoke() ?: dismiss() }
-    }
-
-    private fun showInstructions(view: View) {
-        val context = context.takeIf { it != null } ?: return
-        view.basicDialogHeader.background.colorFilter = PorterDuffColorFilter(dialogType.headerBackgroundColor ?: ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN)
-        view.basicDialogHeaderTitle.text = resources.getString(R.string.instructions_label)
-        view.basicDialogHeaderImage.setImageResource(dialogType.icon ?: R.drawable.ic_info)
-        view.basicDialogInstructionsText.text = dialogType.text?.toHtml()
-        view.basicDialogInstructionsText.movementMethod = InternalLinkMovementMethod(onLinkClickedBlock = {
-            context.openWebViewIntent(urlString = it)
-            true
-        })
-        view.basicDialogOkButton.buttonBackgroundColor = String.format("#%06X", 0xFFFFFF and (dialogType.headerBackgroundColor ?: ContextCompat.getColor(context, R.color.colorAccent)))
-        view.basicDialogOkButton.setOnClickListener { dismiss() }
-    }
-
-    private fun showWarning(view: View) {
-        val context = context.takeIf { it != null } ?: return
-        view.basicDialogHeader.background.colorFilter = PorterDuffColorFilter(dialogType.headerBackgroundColor ?: ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN)
-        view.basicDialogHeaderTitle.text = resources.getString(R.string.warning_label)
-        view.basicDialogHeaderImage.setImageResource(dialogType.icon ?: R.drawable.ic_exclamation_mark)
-        view.basicDialogInstructionsText.text = dialogType.text?.toHtml()
-        view.basicDialogOkButton.buttonBackgroundColor = String.format("#%06X", 0xFFFFFF and (dialogType.headerBackgroundColor ?: ContextCompat.getColor(context, R.color.colorAccent)))
-        view.basicDialogOkButton.setOnClickListener { dismiss() }
     }
 
 }
