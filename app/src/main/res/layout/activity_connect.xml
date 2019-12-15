@@ -115,6 +115,22 @@
                 app:cornerRadius="20dp"
                 app:backgroundTint="@color/colorAccent"/>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/viewSavedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:gravity="center"
+                android:fontFamily="@font/ubuntu_monospace"
+                android:text="@string/view_saved_text_label"
+                android:textStyle="bold"
+                app:drawableEndCompat="@drawable/ic_arrow_forward"
+                app:drawableTint="@color/colorAccent"
+                android:drawablePadding="@dimen/nav_header_vertical_spacing"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/connectButton" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

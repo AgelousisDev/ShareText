@@ -17,6 +17,7 @@ import com.agelousis.sharetext.custom.dialogs.BasicDialog
 import com.agelousis.sharetext.custom.dialogs.BasicDialogType
 import com.agelousis.sharetext.custom.loader_dialog.LoaderDialog
 import com.agelousis.sharetext.main.MainActivity
+import com.agelousis.sharetext.main.ui.enumerations.FragmentViewType
 import com.agelousis.sharetext.main.ui.share_text.models.HeaderRow
 import com.agelousis.sharetext.utilities.*
 import com.agelousis.sharetext.utilities.extensions.*
@@ -38,8 +39,8 @@ class ConnectActivity : AppCompatActivity() {
         instructionsIconButton.setOnClickListener { BasicDialog.show(supportFragmentManager = supportFragmentManager, dialogType = BasicDialogType(title = resources.getString(R.string.instructions_label),text = resources.getString(R.string.share_text_instructions), icon = R.drawable.ic_info, headerBackgroundColor = ContextCompat.getColor(this@ConnectActivity, R.color.colorAccent))) }
         moreButton.setOnClickListener { BottomSheetFragment.show(supportFragmentManager = supportFragmentManager) }
         connectButton.setOnClickListener {
-            startActivity(Intent(this@ConnectActivity, MainActivity::class.java))
-            /*isFormValidated {
+            //startActivity(Intent(this@ConnectActivity, MainActivity::class.java))
+            isFormValidated {
                 if (getSharedPreferences(Constants.PREFERENCES_TAG, Context.MODE_PRIVATE).areIPAddressesRemembered)
                     saveIPAddress(ipAddress = ipAddressLayout.text)
                 LoaderDialog.show(supportFragmentManager = supportFragmentManager)
@@ -51,12 +52,18 @@ class ConnectActivity : AppCompatActivity() {
                         portLayout.text = ""
                         startActivityForResult(with(Intent(this@ConnectActivity, MainActivity::class.java)) {
                             putExtra(MainActivity.SERVER_HOST_EXTRA, it)
+                            putExtra(MainActivity.FRAGMENT_VIEW_TYPE_EXTRA, FragmentViewType.VIEW_ALL)
                             this
                         }, MainActivity.REQUEST_CODE)
                     }
                 }.execute()
-            }*/
+            }
         }
+
+        viewSavedLabel.setOnClickListener { startActivity(with(Intent(this@ConnectActivity, MainActivity::class.java)) {
+            this.putExtra(MainActivity.FRAGMENT_VIEW_TYPE_EXTRA, FragmentViewType.VIEW_ONLY_SAVED)
+            this
+        }) }
     }
 
     private fun checkSavedValues() {

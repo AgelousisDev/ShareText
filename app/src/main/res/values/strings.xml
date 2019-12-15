@@ -15,7 +15,7 @@
     <string name="field_required_error">Field is required</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="share_text_label">Share Text</string>
-    <string name="saved_label">Saved</string>
+    <string name="saved_label">Saved Text</string>
     <string name="title_notifications">Notifications</string>
     <string name="warning_label">Warning</string>
     <string name="dark_mode_label">Enable Dark Mode</string>
@@ -29,4 +29,6 @@
     <string name="close_label">Close</string>
     <string name="selected_messages_value">%d Selected</string>
     <string name="disconnected_message">Ups, Server closed the Connection!!!</string>
+    <string name="view_saved_text_label">View Saved Text</string>
+    <string name="search_text_here">Search here&#8230;</string>
 </resources>

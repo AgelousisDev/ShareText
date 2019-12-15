@@ -13,6 +13,7 @@ import android.text.Html
 import android.text.Spanned
 import android.view.View
 import android.view.animation.LinearInterpolator
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
@@ -187,5 +188,10 @@ val Socket.receivedMessageModel: MessageModel?
     get() = try { this.getInputStream()?.let { DataInputStream(it).readUTF().messageModel } } catch(e: Exception) { null }
 
 fun Socket.sendMessageModel(messageModelString: String) = this.getOutputStream()?.let { DataOutputStream(it).writeUTF(messageModelString) }
+
+fun Context.showKeyboard(view: View, show: Boolean) {
+    val inputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+    if (show) inputMethodManager?.showSoftInput(view, 0) else inputMethodManager?.hideSoftInputFromWindow(view.windowToken, 0)
+}
 
 
