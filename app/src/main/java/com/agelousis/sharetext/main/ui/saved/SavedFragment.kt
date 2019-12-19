@@ -9,16 +9,36 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.agelousis.sharetext.R
+import com.agelousis.sharetext.main.MainActivity
+import com.agelousis.sharetext.main.ui.enumerations.FragmentViewType
+import com.agelousis.sharetext.main.ui.saved.adapters.SavedTextAdapter
+import com.agelousis.sharetext.main.ui.share_text.models.EmptyRow
+import com.agelousis.sharetext.main.ui.share_text.models.HeaderRow
 import com.agelousis.sharetext.utilities.extensions.showKeyboard
 import kotlinx.android.synthetic.main.fragment_saved.view.*
 
 class SavedFragment : Fragment() {
 
     private var savedViewModel: SavedViewModel? = null
+    private var list = arrayListOf<Any>()
 
     override fun onResume() {
         super.onResume()
-        savedViewModel?.savedMessageModelList?.observe(this, Observer {  })
+        savedViewModel?.fetchSavedMessageList(context = context?.let { it } ?: return)
+        savedViewModel?.savedMessageModelList?.observe(this, Observer { savedTextMessageModelList ->
+            if (savedTextMessageModelList.isEmpty()) {
+                list.add(EmptyRow(title = resources.getString(R.string.empty_shared_text_list_label)))
+            }
+            else {
+                list.removeAll { it is EmptyRow }
+                savedTextMessageModelList.groupBy { it.channel }.toSortedMap().forEach { map ->
+                    //if (list.none { (it as? HeaderRow)?.title == map.key })
+                        list.add(HeaderRow(title = map.key))
+                    list.addAll(map.value)
+                }
+            }
+            view?.savedTextRecyclerView?.adapter?.notifyDataSetChanged()
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,10 +49,16 @@ class SavedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configureBottomAppBar(view = view)
+        configureRecyclerView(view = view)
     }
 
     private fun configureBottomAppBar(view: View) {
-        view.bottomAppBar.setNavigationOnClickListener { activity?.finish() }
+        view.bottomAppBar.setNavigationOnClickListener {
+            when((context as? MainActivity)?.fragmentViewType) {
+                FragmentViewType.VIEW_ALL -> (activity as? MainActivity)?.onBackPressed()
+                FragmentViewType.VIEW_ONLY_SAVED -> activity?.finish()
+            }
+        }
         view.bottomAppBarSearchButton.setOnClickListener {
             view.bottomAppBarSearchButton.hide()
             view.bottomAppBarTitle.visibility = View.GONE
@@ -48,6 +74,10 @@ class SavedFragment : Fragment() {
                 context?.showKeyboard(view = view.bottomAppBarSearchField, show = false)
             }
         }
+    }
+
+    private fun configureRecyclerView(view: View) {
+        view.savedTextRecyclerView?.adapter = SavedTextAdapter(list = list)
     }
 
 }

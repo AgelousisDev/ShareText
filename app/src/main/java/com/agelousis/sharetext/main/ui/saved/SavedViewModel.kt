@@ -11,8 +11,13 @@ class SavedViewModel : ViewModel() {
     val savedMessageModelList by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<List<SavedMessageModel>>() }
 
     fun fetchSavedMessageList(context: Context) {
-        val dbManager = DBManager(context = context)
+        /*val dbManager = DBManager(context = context)
         savedMessageModelList.value = dbManager.fetch()
+        dbManager.close()*/
+        savedMessageModelList.value = listOf(SavedMessageModel(channel = "channel1", text = "Hello World on channel1", date = "07-03-2015 12:10"),
+            SavedMessageModel(channel = "channel2", text = "Hello World on channel 2", date = "09-12-2013 10:08"),SavedMessageModel(channel = "channel3", text = "Hello World on channel 3", date = "06-02-2009 14:28"),
+            SavedMessageModel(channel = "channel1", text = "Hello World on channel 1", date = "01-09-1993 09:21"),SavedMessageModel(channel = "channel4", text = "Hello World on channel 4", date = "14-06-2014 17:54"),
+            SavedMessageModel(channel = "channel2", text = "Hello World on channel 2", date = "10-08-2000 19:30"),SavedMessageModel(channel = "channel3", text = "Hello World on channel 3", date = "04-11-1993 04:43"))
     }
 
 }
