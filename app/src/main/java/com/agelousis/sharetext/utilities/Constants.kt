@@ -38,4 +38,5 @@ object Constants {
     const val textType = "text/plain"
     const val IP_ADDRESSES_FILE = "ipAddresses.json"
     const val IP_ADDRESS_KEY_JSON = "ip_address"
+    const val DATE_FORMAT = "dd-MM-yyyy HH:mm"
 }

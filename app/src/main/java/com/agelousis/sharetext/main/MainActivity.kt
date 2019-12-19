@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         const val REQUEST_CODE = 1
     }
 
-    private val serverHost: ServerHost? by lazy { intent?.extras?.getParcelable<ServerHost?>(SERVER_HOST_EXTRA) }
+    val serverHost: ServerHost? by lazy { intent?.extras?.getParcelable<ServerHost?>(SERVER_HOST_EXTRA) }
     private val fragmentViewType: FragmentViewType? by lazy { intent?.extras?.getSerializable(FRAGMENT_VIEW_TYPE_EXTRA) as? FragmentViewType }
 
     override fun onBackPressed() {

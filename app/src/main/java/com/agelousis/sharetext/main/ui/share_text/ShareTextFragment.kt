@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.agelousis.sharetext.R
+import com.agelousis.sharetext.main.MainActivity
 import com.agelousis.sharetext.main.ui.share_text.adapters.ShareTextAdapter
 import com.agelousis.sharetext.main.ui.share_text.enums.MessagesViewType
 import com.agelousis.sharetext.main.ui.share_text.models.EmptyRow
@@ -105,7 +106,7 @@ class ShareTextFragment : Fragment() {
                 (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.clearSelectedItems()
                 (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.updateItems()
             }
-            R.id.menuSave -> {}
+            R.id.menuSave -> shareTextViewModel?.saveListOfMessages(context = context?.let { it } ?: return super.onOptionsItemSelected(item), channel = (context as? MainActivity)?.serverHost?.hostName ?: "", messageModelList = (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.selectedMessagesLiveData?.value ?: listOf())
         }
         return super.onOptionsItemSelected(item)
     }

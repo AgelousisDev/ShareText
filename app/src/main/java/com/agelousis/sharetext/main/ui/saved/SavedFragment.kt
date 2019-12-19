@@ -1,13 +1,12 @@
 package com.agelousis.sharetext.main.ui.saved
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.agelousis.sharetext.R
 import com.agelousis.sharetext.utilities.extensions.showKeyboard
@@ -15,7 +14,12 @@ import kotlinx.android.synthetic.main.fragment_saved.view.*
 
 class SavedFragment : Fragment() {
 
-    private lateinit var savedViewModel: SavedViewModel
+    private var savedViewModel: SavedViewModel? = null
+
+    override fun onResume() {
+        super.onResume()
+        savedViewModel?.savedMessageModelList?.observe(this, Observer {  })
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         savedViewModel = ViewModelProviders.of(this).get(SavedViewModel::class.java)
