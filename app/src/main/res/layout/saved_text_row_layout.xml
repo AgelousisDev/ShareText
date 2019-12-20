@@ -1,42 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="android.view.View" />
         <variable
-            name="item"
+            name="model"
             type="com.agelousis.sharetext.main.ui.saved.models.SavedMessageModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/whiteTwo">
+        android:background="@color/colorPrimary">
+
+        <FrameLayout
+            android:id="@+id/savedRowChannelHighlightLayout"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+            android:layout_marginStart="@dimen/nav_header_vertical_spacing"
+            android:background="@drawable/rounded_accent_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/ubuntu_monospace"
+                android:gravity="center"
+                tools:text="A"
+                android:text="@{String.valueOf(model.channel.toUpperCase().charAt(0))}"
+                android:textSize="22sp"
+                android:textColor="@color/colorAccentDarker" />
+
+        </FrameLayout>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/savedRowText"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/nav_header_vertical_spacing"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:fontFamily="@font/ubuntu_monospace"
-            android:gravity="center"
-            android:text="@{item.text}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Sample Message" />
+            android:gravity="start"
+            android:text="@{model.text}"
+            app:layout_constraintStart_toEndOf="@+id/savedRowChannelHighlightLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/savedRowChannelHighlightLayout"
+            tools:text="Sample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample Message" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/savedRowDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/nav_header_vertical_spacing"
+            android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
             android:fontFamily="@font/ubuntu_monospace"
             android:gravity="center"
+            android:text="@{model.date}"
             android:textSize="12sp"
-            android:text="@{item.date}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/grey"
+            app:layout_constraintStart_toEndOf="@+id/savedRowChannelHighlightLayout"
             app:layout_constraintTop_toBottomOf="@+id/savedRowText"
             tools:text="10-11-2019 18:20" />
+
+        <View
+            android:id="@+id/savedRowSeparator"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:background="@color/grey"
+            android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+            android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/savedRowDate"
+            app:layout_constraintTop_toBottomOf="@+id/savedRowDate"
+            android:visibility="@{model.showLine ? View.VISIBLE : View.INVISIBLE}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -7,7 +7,7 @@ import com.agelousis.sharetext.main.ui.saved.models.SavedMessageModel
 class SavedTextViewHolder(private val binding: SavedTextRowLayoutBinding): RecyclerView.ViewHolder(binding.root) {
 
     fun bind(savedMessageModel: SavedMessageModel?) {
-        binding.item = savedMessageModel
+        binding.model = savedMessageModel
         binding.executePendingBindings()
     }
 

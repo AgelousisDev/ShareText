@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="android.view.View" />
         <variable
             name="headerItem"
             type="com.agelousis.sharetext.main.ui.share_text.models.HeaderRow" />
@@ -23,13 +24,15 @@
         android:fontFamily="@font/ubuntu_monospace"
         android:textStyle="bold"
         android:text="@{headerItem.title}"
+        android:textColor="@color/grey"
         tools:text="Header"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-            android:background="@color/grey"/>
+            android:background="@color/grey"
+            android:visibility="@{headerItem.showLine ? View.VISIBLE : View.GONE}"/>
 
     </LinearLayout>
 
