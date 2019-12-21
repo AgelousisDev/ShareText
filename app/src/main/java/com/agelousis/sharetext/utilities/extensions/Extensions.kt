@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
@@ -15,20 +14,20 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.ColorUtils
 import androidx.databinding.BindingAdapter
 import com.agelousis.sharetext.R
 import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.utilities.AnimationCompletionBlock
 import com.agelousis.sharetext.utilities.Constants
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textview.MaterialTextView
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
@@ -46,6 +45,7 @@ fun View.startScaleAnimation(duration: Long = 1000L, animationCompletionBlock: A
     }).start()
 }
 
+@SuppressWarnings("deprecation")
 fun String.toHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY) else Html.fromHtml(this)
 
 fun Context.openWebViewIntent(urlString: String) {
@@ -58,9 +58,9 @@ fun Context.openWebViewIntent(urlString: String) {
     chromeIntent.launchUrl(this, uri)
 }
 
-inline val @receiver:ColorInt Int.darken
+/*inline val @receiver:ColorInt Int.darken
     @ColorInt
-    get() = ColorUtils.blendARGB(this, Color.BLACK, 0.2f)
+    get() = ColorUtils.blendARGB(this, Color.BLACK, 0.2f)*/
 
 @BindingAdapter("srcCompat")
     fun setSrcCompat(view: AppCompatImageView, @DrawableRes drawable: Int) {
@@ -70,6 +70,10 @@ inline val @receiver:ColorInt Int.darken
 @BindingAdapter("underline")
     fun setUnderline(view: AppCompatTextView, value: String) {
         if (value.isLink) view.text = String.format(view.context.resources.getString(R.string.link_value_text), value).toHtml()
+    }
+@BindingAdapter("textColor")
+    fun setTextColor(view: MaterialTextView, @ColorRes color: Int?) {
+        color?.let { view.setTextColor(it) } ?: view.setTextColor(ContextCompat.getColor(view.context, android.R.color.tab_indicator_text))
     }
 
 fun PackageManager.isPackageInstalled(packageName: String): Boolean {
@@ -193,6 +197,8 @@ fun Context.showKeyboard(view: View, show: Boolean) {
     val inputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
     if (show) inputMethodManager?.showSoftInput(view, 0) else inputMethodManager?.hideSoftInputFromWindow(view.windowToken, 0)
 }
+
+fun Context.getCompatColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
 
 

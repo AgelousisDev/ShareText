@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,6 +17,7 @@ import com.agelousis.sharetext.main.ui.saved.enums.ViewMode
 import com.agelousis.sharetext.main.ui.saved.models.SavedMessageModel
 import com.agelousis.sharetext.main.ui.share_text.models.EmptyRow
 import com.agelousis.sharetext.main.ui.share_text.models.HeaderRow
+import com.agelousis.sharetext.utilities.extensions.getCompatColor
 import com.agelousis.sharetext.utilities.extensions.showKeyboard
 import kotlinx.android.synthetic.main.fragment_saved.view.*
 import java.util.*
@@ -47,7 +49,7 @@ class SavedFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        fetchSavedDataWith()
+        savedViewModel?.fetchSavedMessageList(context = context?.let { it } ?: return)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,10 +60,13 @@ class SavedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configureBottomAppBar(view = view)
+        addObserverAndFetch(view = view)
         configureRecyclerView(view = view)
     }
 
     private fun configureBottomAppBar(view: View) {
+        if ((activity as? MainActivity)?.fragmentViewType == FragmentViewType.VIEW_ALL) view.bottomAppBar.navigationIcon = null
+
         view.bottomAppBar.setNavigationOnClickListener {
             if (viewMode == ViewMode.VIEW_MODE)
                 when((context as? MainActivity)?.fragmentViewType) {
@@ -76,30 +81,36 @@ class SavedFragment : Fragment() {
         view.bottomAppBarSearchField.addTextChangedListener {
             if (it?.isEmpty() == true)
                 viewMode = ViewMode.VIEW_MODE
-            else queryItems(query = it?.toString())
+            queryItems(query = it?.toString())
+        }
+        view.bottomAppBarSearchField.setOnEditorActionListener { searchField, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE && searchField.text.isEmpty())
+                viewMode = ViewMode.VIEW_MODE
+            false
         }
     }
 
     private fun configureRecyclerView(view: View) {
-        view.savedTextRecyclerView?.adapter = SavedTextAdapter(list = filteredList)
+        view.savedTextRecyclerView.adapter = SavedTextAdapter(list = filteredList)
     }
 
-    private fun fetchSavedDataWith(query: String? = null) {
-        savedViewModel?.fetchSavedMessageList(context = context?.let { it } ?: return)
+    private fun addObserverAndFetch(view: View) {
+        savedViewModel?.fetchSavedMessageList(context = view.context)
         savedViewModel?.savedMessageModelList?.observe(this, Observer { savedTextMessageModelList ->
+            list.clear()
+            filteredList.clear()
             if (savedTextMessageModelList.isEmpty()) {
                 list.add(EmptyRow(title = resources.getString(R.string.empty_shared_text_list_label)))
             }
             else {
-                list.clear()
                 savedTextMessageModelList.groupBy { it.channel }.toSortedMap().forEach { map ->
-                    list.add(HeaderRow(title = map.key, showLine = false))
+                    list.add(HeaderRow(title = map.key, showLine = false, headerTextColor = context?.getCompatColor(color = R.color.grey)))
                     list.addAll(map.value)
                 }
                 (list.lastOrNull() as? SavedMessageModel)?.showLine = false
             }
             filteredList.addAll(list)
-            view?.savedTextRecyclerView?.adapter?.notifyDataSetChanged()
+            (view.savedTextRecyclerView.adapter as? SavedTextAdapter)?.updateItems()
         })
     }
 
@@ -107,10 +118,10 @@ class SavedFragment : Fragment() {
         query?.let {
             filteredList.clear()
             savedViewModel?.savedMessageModelList?.value?.groupBy { it.channel }?.toSortedMap()?.filter { map -> map.value.any { it.text.toLowerCase(Locale.getDefault()).contains(query.toLowerCase(Locale.getDefault())) } }?.forEach {
-                filteredList.add(HeaderRow(title = it.key, showLine = false))
+                filteredList.add(HeaderRow(title = it.key, showLine = false, headerTextColor = context?.getCompatColor(color = R.color.grey)))
                 filteredList.addAll(it.value)
             }
-            view?.savedTextRecyclerView?.adapter?.notifyDataSetChanged()
+            (view?.savedTextRecyclerView?.adapter as? SavedTextAdapter)?.updateItems()
         }
     }
 

@@ -41,4 +41,8 @@ class SavedTextAdapter(private val list: ArrayList<Any>): RecyclerView.Adapter<R
         return 0
     }
 
+    fun updateItems() {
+        notifyDataSetChanged()
+    }
+
 }
