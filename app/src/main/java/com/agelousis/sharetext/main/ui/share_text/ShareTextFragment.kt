@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.agelousis.sharetext.R
+import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.main.MainActivity
 import com.agelousis.sharetext.main.ui.share_text.adapters.ShareTextAdapter
 import com.agelousis.sharetext.main.ui.share_text.enums.MessagesViewType
@@ -53,7 +54,7 @@ class ShareTextFragment : Fragment() {
         view.messageTextFieldLayout.sendMessageButtonListener { shareTextViewModel?.outcomeMessageModelString = initJsonMessageObject(type = Constants.textType, instantValue = false, body = it) }
 
         // RecyclerView
-        listOfMessages.add(EmptyRow(title = resources.getString(R.string.empty_shared_text_list_label)))
+        listOfMessages.add(EmptyRow(title = resources.getString(R.string.start_sharing_text), icon = R.drawable.share_text_header_icon))
         val flexLayoutManager = FlexboxLayoutManager(context, FlexDirection.ROW)
         flexLayoutManager.justifyContent = JustifyContent.CENTER
         flexLayoutManager.alignItems = AlignItems.CENTER

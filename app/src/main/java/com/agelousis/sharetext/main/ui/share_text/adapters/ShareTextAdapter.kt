@@ -22,8 +22,8 @@ class ShareTextAdapter(private val list: ArrayList<Any>): RecyclerView.Adapter<R
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when(viewType) {
-            ShareTextAdapterViewType.EMPTY_VIEW.value -> EmptyViewHolder(binding = EmptyRowLayoutBinding.inflate(inflater))
-            ShareTextAdapterViewType.MESSAGE_VIEW.value -> MessageViewHolder(binding = MessageRowLayoutBinding.inflate(inflater))
+            ShareTextAdapterViewType.EMPTY_VIEW.value -> EmptyViewHolder(binding = EmptyRowLayoutBinding.inflate(inflater, parent, false))
+            ShareTextAdapterViewType.MESSAGE_VIEW.value -> MessageViewHolder(binding = MessageRowLayoutBinding.inflate(inflater, parent, false))
             else -> EmptyViewHolder(binding = EmptyRowLayoutBinding.inflate(inflater))
         }
     }

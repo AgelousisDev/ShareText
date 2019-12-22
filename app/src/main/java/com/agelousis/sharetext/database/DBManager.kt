@@ -28,7 +28,7 @@ class DBManager(context: Context) {
         database?.insert(SQLiteHelper.TABLE_NAME, null, contentValue)
     }
 
-    fun fetch(): ArrayList<SavedMessageModel>? {
+    fun fetch(): ArrayList<SavedMessageModel> {
         val listOfSavedMessageModel = arrayListOf<SavedMessageModel>()
         val cursor: Cursor? = database?.query(SQLiteHelper.TABLE_NAME, arrayOf(SQLiteHelper.ID, SQLiteHelper.CHANNEL, SQLiteHelper.TEXT, SQLiteHelper.DATE), null, null, null, null, null)
         if (cursor?.moveToFirst() == true)

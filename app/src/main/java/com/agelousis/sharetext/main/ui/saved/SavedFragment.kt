@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import androidx.core.widget.addTextChangedListener
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,7 +17,6 @@ import com.agelousis.sharetext.main.ui.saved.models.SavedMessageModel
 import com.agelousis.sharetext.main.ui.share_text.models.EmptyRow
 import com.agelousis.sharetext.main.ui.share_text.models.HeaderRow
 import com.agelousis.sharetext.utilities.extensions.getCompatColor
-import com.agelousis.sharetext.utilities.extensions.showKeyboard
 import kotlinx.android.synthetic.main.fragment_saved.view.*
 import java.util.*
 
@@ -35,14 +33,14 @@ class SavedFragment : Fragment() {
                     view?.bottomAppBarSearchButton?.hide()
                     view?.bottomAppBarTitle?.visibility = View.GONE
                     view?.bottomAppBarSearchField?.visibility = View.VISIBLE
-                    view?.bottomAppBarSearchField?.requestFocus()
-                    context?.showKeyboard(view = view?.bottomAppBarSearchField?.let { it } ?: return, show = true)
+                    view?.bottomAppBarSearchField?.isIconified = false
+                    //context?.showKeyboard(view = view?.bottomAppBarSearchField?.let { it } ?: return, show = true)
                 }
                 ViewMode.VIEW_MODE -> {
                     view?.bottomAppBarSearchButton?.show()
                     view?.bottomAppBarTitle?.visibility = View.VISIBLE
                     view?.bottomAppBarSearchField?.visibility = View.GONE
-                    context?.showKeyboard(view = view?.bottomAppBarSearchField?.let { it } ?: return, show = false)
+                    //context?.showKeyboard(view = view?.bottomAppBarSearchField?.let { it } ?: return, show = false)
                 }
             }
         }
@@ -68,24 +66,26 @@ class SavedFragment : Fragment() {
         if ((activity as? MainActivity)?.fragmentViewType == FragmentViewType.VIEW_ALL) view.bottomAppBar.navigationIcon = null
 
         view.bottomAppBar.setNavigationOnClickListener {
-            if (viewMode == ViewMode.VIEW_MODE)
-                when((context as? MainActivity)?.fragmentViewType) {
-                    FragmentViewType.VIEW_ALL -> (activity as? MainActivity)?.onBackPressed()
-                    FragmentViewType.VIEW_ONLY_SAVED -> activity?.finish()
-                }
-            else viewMode = ViewMode.VIEW_MODE
+            when((context as? MainActivity)?.fragmentViewType) {
+                FragmentViewType.VIEW_ALL -> (activity as? MainActivity)?.onBackPressed()
+                FragmentViewType.VIEW_ONLY_SAVED -> activity?.finish()
+            }
         }
         view.bottomAppBarSearchButton.setOnClickListener {
            viewMode = ViewMode.EDIT_MODE
         }
-        view.bottomAppBarSearchField.addTextChangedListener {
-            if (it?.isEmpty() == true)
-                viewMode = ViewMode.VIEW_MODE
-            queryItems(query = it?.toString())
-        }
-        view.bottomAppBarSearchField.setOnEditorActionListener { searchField, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE && searchField.text.isEmpty())
-                viewMode = ViewMode.VIEW_MODE
+        view.bottomAppBarSearchField.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                queryItems(query = newText)
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+        })
+        view.bottomAppBarSearchField.setOnCloseListener {
+            viewMode = ViewMode.VIEW_MODE
             false
         }
     }
@@ -100,7 +100,7 @@ class SavedFragment : Fragment() {
             list.clear()
             filteredList.clear()
             if (savedTextMessageModelList.isEmpty()) {
-                list.add(EmptyRow(title = resources.getString(R.string.empty_shared_text_list_label)))
+                list.add(EmptyRow(title = resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty))
             }
             else {
                 savedTextMessageModelList.groupBy { it.channel }.toSortedMap().forEach { map ->
@@ -110,17 +110,26 @@ class SavedFragment : Fragment() {
                 (list.lastOrNull() as? SavedMessageModel)?.showLine = false
             }
             filteredList.addAll(list)
+            configureBottomAppBarVisibility(state = filteredList.none { it is EmptyRow })
             (view.savedTextRecyclerView.adapter as? SavedTextAdapter)?.updateItems()
         })
     }
 
+    private fun configureBottomAppBarVisibility(state: Boolean) {
+        view?.bottomAppBar?.visibility = if (state) View.VISIBLE else View.GONE
+        if (state) view?.bottomAppBarSearchButton?.show() else view?.bottomAppBarSearchButton?.hide()
+    }
+
     private fun queryItems(query: String?) {
-        query?.let {
+        query?.let { unwrappedQuery ->
             filteredList.clear()
-            savedViewModel?.savedMessageModelList?.value?.groupBy { it.channel }?.toSortedMap()?.filter { map -> map.value.any { it.text.toLowerCase(Locale.getDefault()).contains(query.toLowerCase(Locale.getDefault())) } }?.forEach {
+            savedViewModel?.savedMessageModelList?.value?.groupBy { it.channel }?.toSortedMap()?.filter { map -> map.value.any { it.text.toLowerCase(Locale.getDefault()).contains(unwrappedQuery.toLowerCase(Locale.getDefault())) } }?.forEach {
                 filteredList.add(HeaderRow(title = it.key, showLine = false, headerTextColor = context?.getCompatColor(color = R.color.grey)))
                 filteredList.addAll(it.value)
             }
+            if (filteredList.isEmpty() && unwrappedQuery.isNotEmpty())
+                filteredList.add(EmptyRow(title = String.format(resources.getString(R.string.search_empty_result_text_with_value), unwrappedQuery), icon = R.drawable.ic_empty))
+            else filteredList.add(EmptyRow(title = resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty))
             (view?.savedTextRecyclerView?.adapter as? SavedTextAdapter)?.updateItems()
         }
     }

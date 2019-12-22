@@ -22,7 +22,7 @@
     <string name="remember_last_ip_address_label">Remember last IPAddress</string>
     <string name="settings_label">Settings</string>
     <string name="enter_message_here_label">Enter text here&#8230;</string>
-    <string name="empty_shared_text_list_label">There are no shared texts yet&#8230;</string>
+    <string name="start_sharing_text">Start the sharing between Android &amp; Linux</string>
     <string name="link_value_text" translatable="false"><![CDATA[<u>%s</u>]]></string>
     <string name="exit_share_text_message"><![CDATA[Do you want to exit?<br />Notice that the connection will be lost&#8230;]]></string>
     <string name="save_label">Save</string>
@@ -31,4 +31,6 @@
     <string name="disconnected_message">Ups, Server closed the Connection!!!</string>
     <string name="view_saved_text_label">View Saved Text</string>
     <string name="search_text_here">Search here&#8230;</string>
+    <string name="empty_saved_texts">You haven\'t saved any text yet&#8230;</string>
+    <string name="search_empty_result_text_with_value">No results found with \'%s\'</string>
 </resources>

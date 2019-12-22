@@ -42,10 +42,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/connectButton" />
 
-            <androidx.appcompat.widget.AppCompatEditText
+
+            <androidx.appcompat.widget.SearchView
                 android:id="@+id/bottomAppBarSearchField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:searchIcon="@null"
                 android:fontFamily="@font/ubuntu_mono"
                 android:textStyle="bold"
                 android:background="@null"
