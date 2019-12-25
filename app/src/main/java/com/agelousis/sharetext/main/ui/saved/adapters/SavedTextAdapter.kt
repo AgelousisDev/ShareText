@@ -1,8 +1,10 @@
 package com.agelousis.sharetext.main.ui.saved.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.agelousis.sharetext.R
 import com.agelousis.sharetext.connect.view_holders.HeaderViewHolder
 import com.agelousis.sharetext.databinding.EmptyRowLayoutBinding
 import com.agelousis.sharetext.databinding.HeaderRowLayoutBinding
@@ -43,6 +45,40 @@ class SavedTextAdapter(private val list: ArrayList<Any>): RecyclerView.Adapter<R
 
     fun updateItems() {
         notifyDataSetChanged()
+    }
+
+    fun removeItemAndUpdate(context: Context, position: Int) {
+        list.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, list.size)
+
+        val uselessHeaderRow = list.filterIsInstance<HeaderRow>().firstOrNull { headerRow ->
+            list.filterIsInstance<SavedMessageModel>().all { headerRow.title != it.channel }
+        }
+        uselessHeaderRow?.let {
+            val headerPosition = list.indexOf(it)
+            list.removeAt(headerPosition)
+            notifyItemRemoved(headerPosition)
+            notifyItemRangeChanged(headerPosition, list.size)
+        }
+        addEmptyViewIf(emptyRow = EmptyRow(title = context.resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty)) {
+            list.isEmpty()
+        }
+    }
+
+    fun addEmptyViewIf(emptyRow: EmptyRow, predicate: () -> Boolean): Boolean {
+        if (predicate()) {
+            list.add(emptyRow)
+            notifyItemInserted(0)
+            notifyItemRangeChanged(0, list.size)
+        }
+        return predicate()
+    }
+
+    fun restoreItem(model: SavedMessageModel, position: Int) {
+        list.add(position, model)
+        // notify item added by position
+        notifyItemInserted(position)
     }
 
 }

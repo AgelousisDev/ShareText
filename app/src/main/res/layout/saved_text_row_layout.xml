@@ -68,10 +68,9 @@
         <View
             android:id="@+id/savedRowSeparator"
             android:layout_width="0dp"
-            android:layout_height="0.5dp"
+            android:layout_height="0.25dp"
             android:background="@color/grey"
             android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-            android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/savedRowDate"

@@ -33,7 +33,7 @@ class DBManager(context: Context) {
         val cursor: Cursor? = database?.query(SQLiteHelper.TABLE_NAME, arrayOf(SQLiteHelper.ID, SQLiteHelper.CHANNEL, SQLiteHelper.TEXT, SQLiteHelper.DATE), null, null, null, null, null)
         if (cursor?.moveToFirst() == true)
             do {
-                listOfSavedMessageModel.add(SavedMessageModel(channel = cursor.getString(cursor.getColumnIndex(SQLiteHelper.CHANNEL)),
+                listOfSavedMessageModel.add(SavedMessageModel(ID = cursor.getLong(cursor.getColumnIndex(SQLiteHelper.ID)), channel = cursor.getString(cursor.getColumnIndex(SQLiteHelper.CHANNEL)),
                     text = cursor.getString(cursor.getColumnIndex(SQLiteHelper.TEXT)), date = cursor.getString(cursor.getColumnIndex(SQLiteHelper.DATE))))
             } while (cursor.moveToNext())
         cursor?.close()

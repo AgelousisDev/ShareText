@@ -2,17 +2,20 @@ package com.agelousis.sharetext.utilities.extensions
 
 import android.animation.Animator
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
 import android.view.View
 import android.view.animation.LinearInterpolator
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -193,12 +196,33 @@ val Socket.receivedMessageModel: MessageModel?
 
 fun Socket.sendMessageModel(messageModelString: String) = this.getOutputStream()?.let { DataOutputStream(it).writeUTF(messageModelString) }
 
-fun Context.showKeyboard(view: View, show: Boolean) {
+/*fun Context.showKeyboard(view: View, show: Boolean) {
     val inputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
     if (show) inputMethodManager?.showSoftInput(view, 0) else inputMethodManager?.hideSoftInputFromWindow(view.windowToken, 0)
-}
+}*/
 
 fun Context.getCompatColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
+fun Drawable.fromVector(padding: Int): Bitmap {
+    val bitmap = Bitmap.createBitmap(this.intrinsicWidth, this.intrinsicHeight, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    this.setBounds(padding, padding, canvas.width - padding, canvas.height - padding)
+    this.draw(canvas)
+    return bitmap
+}
+
+fun <T> Array<out T>.second(): T {
+    if (isEmpty())
+        throw NoSuchElementException("Array is empty.")
+    return this[1]
+}
+
+fun Context.shareText(content: String) {
+    startActivity(with(Intent(Intent.ACTION_SEND)) {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, content)
+        this
+    })
+}
 
 

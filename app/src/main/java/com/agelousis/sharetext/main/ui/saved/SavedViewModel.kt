@@ -24,4 +24,12 @@ class SavedViewModel : ViewModel() {
                     "22 Ιουλ 2017 - In this tutorial we'll learn an easy way to add an initial content animation for a", date = "10-08-2000 19:30"),SavedMessageModel(channel = "KDE Plasma", text = "Hello World on channel 3", date = "04-11-1993 04:43"))
     }
 
+    fun deleteSavedMessage(context: Context, savedMessageModel: SavedMessageModel?) {
+        savedMessageModel?.ID?.let { id ->
+            val dbManager = DBManager(context = context)
+            dbManager.delete(id = id)
+            dbManager.close()
+        }
+    }
+
 }

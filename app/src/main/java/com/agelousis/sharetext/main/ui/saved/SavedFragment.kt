@@ -8,15 +8,19 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.agelousis.sharetext.R
 import com.agelousis.sharetext.main.MainActivity
 import com.agelousis.sharetext.main.ui.enumerations.FragmentViewType
 import com.agelousis.sharetext.main.ui.saved.adapters.SavedTextAdapter
+import com.agelousis.sharetext.main.ui.saved.enums.SwipeAction
 import com.agelousis.sharetext.main.ui.saved.enums.ViewMode
+import com.agelousis.sharetext.main.ui.saved.helpers.SavedTextItemTouchHelper
 import com.agelousis.sharetext.main.ui.saved.models.SavedMessageModel
 import com.agelousis.sharetext.main.ui.share_text.models.EmptyRow
 import com.agelousis.sharetext.main.ui.share_text.models.HeaderRow
 import com.agelousis.sharetext.utilities.extensions.getCompatColor
+import com.agelousis.sharetext.utilities.extensions.shareText
 import kotlinx.android.synthetic.main.fragment_saved.view.*
 import java.util.*
 
@@ -92,6 +96,16 @@ class SavedFragment : Fragment() {
 
     private fun configureRecyclerView(view: View) {
         view.savedTextRecyclerView.adapter = SavedTextAdapter(list = filteredList)
+        val itemTouchHelper = ItemTouchHelper(SavedTextItemTouchHelper(context = view.context) innerBlock@ { swipeAction, position ->
+            when(swipeAction) {
+                SwipeAction.SHARE -> context?.shareText(content = (filteredList.getOrNull(position) as? SavedMessageModel)?.text ?: return@innerBlock)
+                SwipeAction.DELETE -> {
+                    (view.savedTextRecyclerView.adapter as? SavedTextAdapter)?.removeItemAndUpdate(view.context, position = position)
+                    savedViewModel?.deleteSavedMessage(context = view.context, savedMessageModel = list.getOrNull(position) as? SavedMessageModel)
+                }
+            }
+        })
+        itemTouchHelper.attachToRecyclerView(view.savedTextRecyclerView)
     }
 
     private fun addObserverAndFetch(view: View) {
@@ -99,10 +113,10 @@ class SavedFragment : Fragment() {
         savedViewModel?.savedMessageModelList?.observe(this, Observer { savedTextMessageModelList ->
             list.clear()
             filteredList.clear()
-            if (savedTextMessageModelList.isEmpty()) {
-                list.add(EmptyRow(title = resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty))
-            }
-            else {
+
+            if ((view.savedTextRecyclerView.adapter as? SavedTextAdapter)?.addEmptyViewIf(EmptyRow(title = resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty)) {
+                    savedTextMessageModelList.isEmpty()
+                } == false) {
                 savedTextMessageModelList.groupBy { it.channel }.toSortedMap().forEach { map ->
                     list.add(HeaderRow(title = map.key, showLine = false, headerTextColor = context?.getCompatColor(color = R.color.grey)))
                     list.addAll(map.value)
@@ -129,7 +143,7 @@ class SavedFragment : Fragment() {
             }
             if (filteredList.isEmpty() && unwrappedQuery.isNotEmpty())
                 filteredList.add(EmptyRow(title = String.format(resources.getString(R.string.search_empty_result_text_with_value), unwrappedQuery), icon = R.drawable.ic_empty))
-            else filteredList.add(EmptyRow(title = resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty))
+            else if (filteredList.isEmpty() && unwrappedQuery.isEmpty()) filteredList.add(EmptyRow(title = resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty))
             (view?.savedTextRecyclerView?.adapter as? SavedTextAdapter)?.updateItems()
         }
     }
