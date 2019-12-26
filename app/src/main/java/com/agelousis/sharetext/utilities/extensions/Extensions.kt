@@ -6,9 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Typeface
+import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -16,6 +14,7 @@ import android.text.Html
 import android.text.Spanned
 import android.view.View
 import android.view.animation.LinearInterpolator
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -36,6 +35,7 @@ import org.json.JSONObject
 import java.io.*
 import java.lang.Exception
 import java.net.Socket
+import kotlin.random.Random
 
 fun View.startScaleAnimation(duration: Long = 1000L, animationCompletionBlock: AnimationCompletionBlock? = null) {
     this.scaleX = 0.0f
@@ -77,6 +77,10 @@ fun Context.openWebViewIntent(urlString: String) {
 @BindingAdapter("textColor")
     fun setTextColor(view: MaterialTextView, @ColorRes color: Int?) {
         color?.let { view.setTextColor(it) } ?: view.setTextColor(ContextCompat.getColor(view.context, android.R.color.tab_indicator_text))
+    }
+@BindingAdapter("coloredRoundedBackground")
+    fun setColoredRoundedBackground(view: FrameLayout, @ColorRes color: Int?) {
+        color?.let { view.background.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN) }
     }
 
 fun PackageManager.isPackageInstalled(packageName: String): Boolean {
@@ -224,5 +228,16 @@ fun Context.shareText(content: String) {
         this
     })
 }
+
+val Context.randomColor: Int
+    get()  {
+        var color = Color.argb(255, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256))
+        if (color == ContextCompat.getColor(this, R.color.colorAccentDarker))
+            color = ContextCompat.getColor(this, R.color.colorAccent)
+        return color
+    }
+
+inline fun <T> Iterable<T>.applyToAll(action: (T) -> Unit) { for (element in this) action(element) }
+
 
 

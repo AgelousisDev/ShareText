@@ -1,5 +1,6 @@
 package com.agelousis.sharetext.utilities
 
+import android.graphics.Color
 import com.agelousis.sharetext.client_socket.models.ServerHost
 import com.agelousis.sharetext.main.ui.share_text.view_holders.models.SelectionModel
 
@@ -39,4 +40,11 @@ object Constants {
     const val IP_ADDRESSES_FILE = "ipAddresses.json"
     const val IP_ADDRESS_KEY_JSON = "ip_address"
     const val DATE_FORMAT = "dd-MM-yyyy HH:mm"
+
+    fun getContrastColor(color: Int): Int {
+        val luminance = ( 0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.green(color)) / 255
+        val d = if (luminance > 0.5) 0 else 255
+        return  Color.rgb(d, d, d)
+    }
+
 }

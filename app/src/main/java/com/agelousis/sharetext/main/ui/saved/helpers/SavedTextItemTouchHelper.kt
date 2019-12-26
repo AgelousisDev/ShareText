@@ -19,7 +19,7 @@ class SavedTextItemTouchHelper(context: Context, private val swipeActionBlock: S
     private val paint = Paint()
 
     //Colors & Icons
-    @ColorRes private var colors = arrayOf(ContextCompat.getColor(context, R.color.colorAccentDarker), ContextCompat.getColor(context, R.color.colorAccentLight))
+    @ColorRes private var colors = arrayOf(ContextCompat.getColor(context, R.color.colorAccent), ContextCompat.getColor(context, R.color.red))
     private var icons = arrayOf(ContextCompat.getDrawable(context, R.drawable.ic_share)?.fromVector(padding = 0), ContextCompat.getDrawable(context, R.drawable.ic_delete)?.fromVector(padding = 0))
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = true

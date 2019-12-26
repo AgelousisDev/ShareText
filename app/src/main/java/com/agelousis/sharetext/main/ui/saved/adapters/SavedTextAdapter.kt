@@ -75,10 +75,7 @@ class SavedTextAdapter(private val list: ArrayList<Any>): RecyclerView.Adapter<R
         return predicate()
     }
 
-    fun restoreItem(model: SavedMessageModel, position: Int) {
-        list.add(position, model)
-        // notify item added by position
-        notifyItemInserted(position)
-    }
+    fun restoreItem(position: Int) = notifyItemChanged(position)
+
 
 }

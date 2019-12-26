@@ -20,6 +20,7 @@
             android:layout_marginTop="@dimen/nav_header_vertical_spacing"
             android:layout_marginStart="@dimen/nav_header_vertical_spacing"
             android:background="@drawable/rounded_accent_view"
+            app:coloredRoundedBackground="@{model.colorOfCircleHeaderBackground}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -32,7 +33,7 @@
                 tools:text="P"
                 android:text="@{String.valueOf(model.channel.toUpperCase().charAt(0))}"
                 android:textSize="22sp"
-                android:textColor="@color/colorAccentDarker" />
+                app:textColor="@{model.colorOfCircleHeader}" />
 
         </FrameLayout>
 

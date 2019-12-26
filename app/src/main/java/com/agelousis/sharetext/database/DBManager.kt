@@ -20,6 +20,14 @@ class DBManager(context: Context) {
         sqLiteHelper?.close()
     }
 
+    fun insert(savedMessageModel: SavedMessageModel) {
+        val contentValue = ContentValues()
+        contentValue.put(SQLiteHelper.CHANNEL, savedMessageModel.channel)
+        contentValue.put(SQLiteHelper.TEXT, savedMessageModel.text)
+        contentValue.put(SQLiteHelper.DATE, savedMessageModel.date)
+        database?.insert(SQLiteHelper.TABLE_NAME, null, contentValue)
+    }
+
     fun insert(channel: String, text: String, date: String) {
         val contentValue = ContentValues()
         contentValue.put(SQLiteHelper.CHANNEL, channel)

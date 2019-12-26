@@ -19,7 +19,10 @@ import com.agelousis.sharetext.main.ui.saved.helpers.SavedTextItemTouchHelper
 import com.agelousis.sharetext.main.ui.saved.models.SavedMessageModel
 import com.agelousis.sharetext.main.ui.share_text.models.EmptyRow
 import com.agelousis.sharetext.main.ui.share_text.models.HeaderRow
+import com.agelousis.sharetext.utilities.Constants
+import com.agelousis.sharetext.utilities.extensions.applyToAll
 import com.agelousis.sharetext.utilities.extensions.getCompatColor
+import com.agelousis.sharetext.utilities.extensions.randomColor
 import com.agelousis.sharetext.utilities.extensions.shareText
 import kotlinx.android.synthetic.main.fragment_saved.view.*
 import java.util.*
@@ -48,11 +51,6 @@ class SavedFragment : Fragment() {
                 }
             }
         }
-
-    override fun onResume() {
-        super.onResume()
-        savedViewModel?.fetchSavedMessageList(context = context?.let { it } ?: return)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         savedViewModel = ViewModelProviders.of(this).get(SavedViewModel::class.java)
@@ -98,10 +96,14 @@ class SavedFragment : Fragment() {
         view.savedTextRecyclerView.adapter = SavedTextAdapter(list = filteredList)
         val itemTouchHelper = ItemTouchHelper(SavedTextItemTouchHelper(context = view.context) innerBlock@ { swipeAction, position ->
             when(swipeAction) {
-                SwipeAction.SHARE -> context?.shareText(content = (filteredList.getOrNull(position) as? SavedMessageModel)?.text ?: return@innerBlock)
+                SwipeAction.SHARE -> {
+                    (view.savedTextRecyclerView.adapter as? SavedTextAdapter)?.restoreItem(position = position)
+                    context?.shareText(content = (filteredList.getOrNull(position) as? SavedMessageModel)?.text ?: return@innerBlock)
+                }
                 SwipeAction.DELETE -> {
+                    val itemOfFilteredList = filteredList.getOrNull(position) as? SavedMessageModel
                     (view.savedTextRecyclerView.adapter as? SavedTextAdapter)?.removeItemAndUpdate(view.context, position = position)
-                    savedViewModel?.deleteSavedMessage(context = view.context, savedMessageModel = list.getOrNull(position) as? SavedMessageModel)
+                    savedViewModel?.deleteSavedMessage(context = view.context, savedMessageModel = list.getOrNull(list.indexOf(itemOfFilteredList ?: return@innerBlock)) as? SavedMessageModel)
                 }
             }
         })
@@ -111,6 +113,8 @@ class SavedFragment : Fragment() {
     private fun addObserverAndFetch(view: View) {
         savedViewModel?.fetchSavedMessageList(context = view.context)
         savedViewModel?.savedMessageModelList?.observe(this, Observer { savedTextMessageModelList ->
+            view.bottomAppBarSearchField.setQuery(null, false)
+            viewMode = ViewMode.VIEW_MODE
             list.clear()
             filteredList.clear()
 
@@ -118,14 +122,18 @@ class SavedFragment : Fragment() {
                     savedTextMessageModelList.isEmpty()
                 } == false) {
                 savedTextMessageModelList.groupBy { it.channel }.toSortedMap().forEach { map ->
+                    val colorOfCircleHeader = view.context.randomColor
                     list.add(HeaderRow(title = map.key, showLine = false, headerTextColor = context?.getCompatColor(color = R.color.grey)))
-                    list.addAll(map.value)
+                    list.addAll(with(map.value) {
+                        this.applyToAll { it.colorOfCircleHeaderBackground = colorOfCircleHeader; it.colorOfCircleHeader = Constants.getContrastColor(color = colorOfCircleHeader) }
+                        this
+                    })
                 }
                 (list.lastOrNull() as? SavedMessageModel)?.showLine = false
             }
             filteredList.addAll(list)
             configureBottomAppBarVisibility(state = filteredList.none { it is EmptyRow })
-            (view.savedTextRecyclerView.adapter as? SavedTextAdapter)?.updateItems()
+            if (savedViewModel?.notifyDateSetChangedEnabled == true) (view.savedTextRecyclerView.adapter as? SavedTextAdapter)?.updateItems()
         })
     }
 
@@ -137,9 +145,9 @@ class SavedFragment : Fragment() {
     private fun queryItems(query: String?) {
         query?.let { unwrappedQuery ->
             filteredList.clear()
-            savedViewModel?.savedMessageModelList?.value?.groupBy { it.channel }?.toSortedMap()?.filter { map -> map.value.any { it.text.toLowerCase(Locale.getDefault()).contains(unwrappedQuery.toLowerCase(Locale.getDefault())) } }?.forEach {
-                filteredList.add(HeaderRow(title = it.key, showLine = false, headerTextColor = context?.getCompatColor(color = R.color.grey)))
-                filteredList.addAll(it.value)
+            (list.filterIsInstance<SavedMessageModel>()).groupBy { it.channel }.toSortedMap().filter { map -> map.value.any { it.text.toLowerCase(Locale.getDefault()).contains(unwrappedQuery.toLowerCase(Locale.getDefault())) } }.forEach { map ->
+                filteredList.add(HeaderRow(title = map.key, showLine = false, headerTextColor = context?.getCompatColor(color = R.color.grey)))
+                filteredList.addAll(map.value.filter { savedMessageModel -> savedMessageModel.text.toLowerCase(Locale.getDefault()).contains(unwrappedQuery.toLowerCase(Locale.getDefault())) })
             }
             if (filteredList.isEmpty() && unwrappedQuery.isNotEmpty())
                 filteredList.add(EmptyRow(title = String.format(resources.getString(R.string.search_empty_result_text_with_value), unwrappedQuery), icon = R.drawable.ic_empty))
