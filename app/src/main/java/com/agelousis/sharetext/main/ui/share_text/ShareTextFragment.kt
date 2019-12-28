@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.agelousis.sharetext.R
 import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.main.MainActivity
+import com.agelousis.sharetext.main.ui.saved.SavedFragment
 import com.agelousis.sharetext.main.ui.share_text.adapters.ShareTextAdapter
 import com.agelousis.sharetext.main.ui.share_text.enums.MessagesViewType
 import com.agelousis.sharetext.main.ui.share_text.models.EmptyRow
@@ -54,7 +55,11 @@ class ShareTextFragment : Fragment() {
         view.messageTextFieldLayout.sendMessageButtonListener { shareTextViewModel?.outcomeMessageModelString = initJsonMessageObject(type = Constants.textType, instantValue = false, body = it) }
 
         // RecyclerView
-        listOfMessages.add(EmptyRow(title = resources.getString(R.string.start_sharing_text), icon = R.drawable.share_text_header_icon))
+        //listOfMessages.add(EmptyRow(title = resources.getString(R.string.start_sharing_text), icon = R.drawable.share_text_header_icon))
+        listOfMessages.addAll(arrayOf(MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false),
+            MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false),
+            MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false),
+            MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false)))
         val flexLayoutManager = FlexboxLayoutManager(context, FlexDirection.ROW)
         flexLayoutManager.justifyContent = JustifyContent.CENTER
         flexLayoutManager.alignItems = AlignItems.CENTER
@@ -94,6 +99,12 @@ class ShareTextFragment : Fragment() {
         })
     }
 
+    private fun clearSelectedMessages() {
+        showMenuItems(show = false)
+        (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.clearSelectedItems()
+        (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.updateItems()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main_activity_menu, menu)
@@ -102,12 +113,14 @@ class ShareTextFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.menuClose -> {
-                showMenuItems(show = false)
-                (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.clearSelectedItems()
-                (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.updateItems()
+            R.id.menuClose -> clearSelectedMessages()
+            R.id.menuSave -> {
+                shareTextViewModel?.saveListOfMessages(context = context?.let { it } ?: return super.onOptionsItemSelected(item), channel = (context as? MainActivity)?.serverHost?.hostName ?: "", messageModelList = (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.selectedMessagesLiveData?.value ?: listOf())
+                activity?.supportFragmentManager?.fragments?.filterIsInstance<SavedFragment>()?.firstOrNull()?.apply {
+                    this.savedViewModel?.fetchSavedMessageList(context = context?.let { it } ?: return super.onOptionsItemSelected(item))
+                }
+                clearSelectedMessages()
             }
-            R.id.menuSave -> shareTextViewModel?.saveListOfMessages(context = context?.let { it } ?: return super.onOptionsItemSelected(item), channel = (context as? MainActivity)?.serverHost?.hostName ?: "", messageModelList = (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.selectedMessagesLiveData?.value ?: listOf())
         }
         return super.onOptionsItemSelected(item)
     }

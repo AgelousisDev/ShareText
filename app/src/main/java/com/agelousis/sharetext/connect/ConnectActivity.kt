@@ -9,6 +9,7 @@ import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.agelousis.sharetext.R
+import com.agelousis.sharetext.client_socket.models.ServerHost
 import com.agelousis.sharetext.connect.adapters.ContactAdapter
 import com.agelousis.sharetext.connect.enums.ContactType
 import com.agelousis.sharetext.connect.options_sheet.BottomSheetFragment
@@ -40,6 +41,7 @@ class ConnectActivity : AppCompatActivity() {
         moreButton.setOnClickListener { BottomSheetFragment.show(supportFragmentManager = supportFragmentManager) }
         connectButton.setOnClickListener {
             startActivity(with(Intent(this@ConnectActivity, MainActivity::class.java)) {
+                putExtra(MainActivity.SERVER_HOST_EXTRA, ServerHost(hostName = "TestingChannel"))
                 putExtra(MainActivity.FRAGMENT_VIEW_TYPE_EXTRA, FragmentViewType.VIEW_ALL)
                 this
             })

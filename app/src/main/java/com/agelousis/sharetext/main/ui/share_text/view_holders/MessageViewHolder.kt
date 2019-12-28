@@ -10,6 +10,7 @@ import com.agelousis.sharetext.main.ui.share_text.view_holders.models.SelectionM
 import com.agelousis.sharetext.utilities.MessageSelectedBlock
 import com.agelousis.sharetext.utilities.extensions.isLink
 import com.agelousis.sharetext.utilities.extensions.openWebViewIntent
+import kotlinx.android.synthetic.main.message_row_layout.view.*
 
 class MessageViewHolder(private val binding: MessageRowLayoutBinding): RecyclerView.ViewHolder(binding.root) {
 
@@ -21,12 +22,14 @@ class MessageViewHolder(private val binding: MessageRowLayoutBinding): RecyclerV
             }
         }
         itemView.tag = SelectionModel(isSelected = false, messageModel = messageModel)
+        itemView.messageRowCardView.setCardBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.colorAccent))
+        itemView.messageRowTextView.setTextColor(ContextCompat.getColor(binding.root.context, R.color.colorPrimary))
         itemView.setOnLongClickListener {
             (it.tag as? SelectionModel)?.apply {
                 when(this.isSelected) {
                     false -> {
-                        binding.messageRowCardView.setCardBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.colorPrimary))
-                        binding.messageRowTextView.setTextColor(ContextCompat.getColor(binding.root.context, R.color.dayNightTextOnBackground))
+                        itemView.messageRowCardView.setCardBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.colorPrimary))
+                        itemView.messageRowTextView.setTextColor(ContextCompat.getColor(binding.root.context, R.color.dayNightTextOnBackground))
                         it.tag = with(this) {
                             this.isSelected = true
                             this
@@ -34,8 +37,8 @@ class MessageViewHolder(private val binding: MessageRowLayoutBinding): RecyclerV
                         messageSelectedBlock(it.tag as? SelectionModel)
                     }
                     true -> {
-                        binding.messageRowCardView.setCardBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.colorAccent))
-                        binding.messageRowTextView.setTextColor(ContextCompat.getColor(binding.root.context, R.color.colorPrimary))
+                        itemView.messageRowCardView.setCardBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.colorAccent))
+                        itemView.messageRowTextView.setTextColor(ContextCompat.getColor(binding.root.context, R.color.colorPrimary))
                         it.tag = with(this) {
                             this.isSelected = false
                             this

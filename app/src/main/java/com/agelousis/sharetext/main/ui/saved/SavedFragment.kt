@@ -29,7 +29,7 @@ import java.util.*
 
 class SavedFragment : Fragment() {
 
-    private var savedViewModel: SavedViewModel? = null
+    var savedViewModel: SavedViewModel? = null
     private var list = arrayListOf<Any>()
     private var filteredList = arrayListOf<Any>()
     private var viewMode: ViewMode = ViewMode.VIEW_MODE
