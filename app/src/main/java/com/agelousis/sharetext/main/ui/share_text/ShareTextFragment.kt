@@ -47,7 +47,7 @@ class ShareTextFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configureUI(view = view)
-        //configureViewModel()
+        configureViewModel()
     }
 
     private fun configureUI(view: View) {
@@ -55,11 +55,11 @@ class ShareTextFragment : Fragment() {
         view.messageTextFieldLayout.sendMessageButtonListener { shareTextViewModel?.outcomeMessageModelString = initJsonMessageObject(type = Constants.textType, instantValue = false, body = it) }
 
         // RecyclerView
-        //listOfMessages.add(EmptyRow(title = resources.getString(R.string.start_sharing_text), icon = R.drawable.share_text_header_icon))
-        listOfMessages.addAll(arrayOf(MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false),
+        listOfMessages.add(EmptyRow(title = resources.getString(R.string.start_sharing_text), icon = R.drawable.share_text_header_icon))
+        /*listOfMessages.addAll(arrayOf(MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false),
             MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false),
             MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false),
-            MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false)))
+            MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false)))*/
         val flexLayoutManager = FlexboxLayoutManager(context, FlexDirection.ROW)
         flexLayoutManager.justifyContent = JustifyContent.CENTER
         flexLayoutManager.alignItems = AlignItems.CENTER
@@ -89,6 +89,7 @@ class ShareTextFragment : Fragment() {
         shareTextViewModel?.messageModelLiveData?.observe(this, Observer { messageModel ->
             listOfMessages.removeAll { it is EmptyRow }
             listOfMessages.add(messageModel)
+            (activity as? MainActivity)?.mainViewModel?.newShareTextLiveData?.value = Pair(first = 0, second = listOfMessages.size)
             (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.updateItems()
         })
         shareTextViewModel?.connectionStateLiveData?.observe(this, Observer {

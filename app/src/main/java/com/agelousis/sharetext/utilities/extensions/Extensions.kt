@@ -239,5 +239,7 @@ val Context.randomColor: Int
 
 inline fun <T> Iterable<T>.applyToAll(action: (T) -> Unit) { for (element in this) action(element) }
 
+inline fun <T> Array<out T>.applyToAll(action: (T) -> Unit) { for (element in this) action(element) }
+
 
 

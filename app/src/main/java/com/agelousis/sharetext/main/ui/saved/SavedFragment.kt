@@ -113,6 +113,7 @@ class SavedFragment : Fragment() {
     private fun addObserverAndFetch(view: View) {
         savedViewModel?.fetchSavedMessageList(context = view.context)
         savedViewModel?.savedMessageModelList?.observe(this, Observer { savedTextMessageModelList ->
+            (activity as? MainActivity)?.mainViewModel?.newShareTextLiveData?.value = Pair(first = 1, second = savedTextMessageModelList.size)
             view.bottomAppBarSearchField.setQuery(null, false)
             viewMode = ViewMode.VIEW_MODE
             list.clear()
