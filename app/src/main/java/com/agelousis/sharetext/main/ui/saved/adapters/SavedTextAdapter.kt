@@ -50,7 +50,7 @@ class SavedTextAdapter(private val list: ArrayList<Any>): RecyclerView.Adapter<R
     fun removeItemAndUpdate(context: Context, position: Int) {
         list.removeAt(position)
         notifyItemRemoved(position)
-        notifyItemRangeChanged(position, list.size)
+        //notifyItemRangeChanged(position, list.size)
 
         val uselessHeaderRow = list.filterIsInstance<HeaderRow>().firstOrNull { headerRow ->
             list.filterIsInstance<SavedMessageModel>().all { headerRow.title != it.channel }
@@ -59,7 +59,7 @@ class SavedTextAdapter(private val list: ArrayList<Any>): RecyclerView.Adapter<R
             val headerPosition = list.indexOf(it)
             list.removeAt(headerPosition)
             notifyItemRemoved(headerPosition)
-            notifyItemRangeChanged(headerPosition, list.size)
+            //notifyItemRangeChanged(headerPosition, list.size)
         }
         addEmptyViewIf(emptyRow = EmptyRow(title = context.resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty)) {
             list.isEmpty()

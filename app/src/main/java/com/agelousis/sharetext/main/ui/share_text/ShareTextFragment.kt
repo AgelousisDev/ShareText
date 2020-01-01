@@ -1,6 +1,7 @@
 package com.agelousis.sharetext.main.ui.share_text
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.children
@@ -9,13 +10,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.agelousis.sharetext.R
-import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.main.MainActivity
 import com.agelousis.sharetext.main.ui.saved.SavedFragment
 import com.agelousis.sharetext.main.ui.share_text.adapters.ShareTextAdapter
 import com.agelousis.sharetext.main.ui.share_text.enums.MessagesViewType
 import com.agelousis.sharetext.main.ui.share_text.models.EmptyRow
 import com.agelousis.sharetext.main.ui.share_text.view_model.ShareTextViewModel
+import com.agelousis.sharetext.service.NotificationService
+import com.agelousis.sharetext.service.models.ServiceMessageModel
 import com.agelousis.sharetext.utilities.Constants
 import com.agelousis.sharetext.utilities.extensions.initJsonMessageObject
 import com.google.android.flexbox.*
@@ -98,6 +100,13 @@ class ShareTextFragment : Fragment() {
                 activity?.finish()
             }
         })
+        shareTextViewModel?.notificationServiceBlock = {
+            if ((activity as? MainActivity)?.isOnBackground == true)
+                context?.startService(with(Intent(context, NotificationService::class.java)) {
+                    putExtra(NotificationService.SERVICE_MESSAGE_MODEL_EXTRA, ServiceMessageModel(channelName = (activity as? MainActivity)?.serverHost?.hostName ?: "", body = it))
+                    this
+                })
+        }
     }
 
     private fun clearSelectedMessages() {
@@ -116,7 +125,7 @@ class ShareTextFragment : Fragment() {
         when(item.itemId) {
             R.id.menuClose -> clearSelectedMessages()
             R.id.menuSave -> {
-                shareTextViewModel?.saveListOfMessages(context = context?.let { it } ?: return super.onOptionsItemSelected(item), channel = (context as? MainActivity)?.serverHost?.hostName ?: "", messageModelList = (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.selectedMessagesLiveData?.value ?: listOf())
+                shareTextViewModel?.saveListOfMessages(context = context?.let { it } ?: return super.onOptionsItemSelected(item), channel = (activity as? MainActivity)?.serverHost?.hostName ?: "", messageModelList = (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.selectedMessagesLiveData?.value ?: listOf())
                 activity?.supportFragmentManager?.fragments?.filterIsInstance<SavedFragment>()?.firstOrNull()?.apply {
                     this.savedViewModel?.fetchSavedMessageList(context = context?.let { it } ?: return super.onOptionsItemSelected(item))
                 }

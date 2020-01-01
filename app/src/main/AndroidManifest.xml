@@ -36,7 +36,9 @@
             android:name=".main.MainActivity"
             android:label=""
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
+        <service android:name=".service.NotificationService" />
     </application>
 
 </manifest>

@@ -9,6 +9,8 @@ import com.agelousis.sharetext.client_socket.ClientSocketOutcomeServive
 import com.agelousis.sharetext.client_socket.interfaces.IncomeMessage
 import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.database.DBManager
+import com.agelousis.sharetext.service.NotificationServiceBlock
+import com.agelousis.sharetext.service.models.ServiceMessageModel
 import com.agelousis.sharetext.utilities.Constants
 import com.agelousis.sharetext.utilities.extensions.otherwise
 import com.agelousis.sharetext.utilities.extensions.whenNull
@@ -16,6 +18,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ShareTextViewModel : ViewModel(), IncomeMessage {
+
+    var notificationServiceBlock: NotificationServiceBlock? = null
 
     private var clientSocketIncomeService: ClientSocketIncomeService? = null
     var serviceIsStartingReceiving: Boolean = false
@@ -39,6 +43,7 @@ class ShareTextViewModel : ViewModel(), IncomeMessage {
         message.whenNull {
             connectionStateLiveData.value = false
         }.otherwise {
+            notificationServiceBlock?.invoke(it.body ?: "")
             connectionStateLiveData.value = it.connectionState
             if (!it.connectionState) clientSocketIncomeService?.cancel(true)
             if (it.connectionState) messageModelLiveData.value = it

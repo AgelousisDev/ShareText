@@ -40,6 +40,7 @@ object Constants {
     const val IP_ADDRESSES_FILE = "ipAddresses.json"
     const val IP_ADDRESS_KEY_JSON = "ip_address"
     const val DATE_FORMAT = "dd-MM-yyyy HH:mm"
+    const val SHARE_TEXT_NOTIFICATION_CHANNEL = "ShareText"
 
     fun getContrastColor(color: Int): Int {
         val luminance = ( 0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.green(color)) / 255

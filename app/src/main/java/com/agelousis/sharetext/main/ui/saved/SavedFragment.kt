@@ -123,7 +123,7 @@ class SavedFragment : Fragment() {
                     savedTextMessageModelList.isEmpty()
                 } == false) {
                 savedTextMessageModelList.groupBy { it.channel }.toSortedMap().forEach { map ->
-                    val colorOfCircleHeader = view.context.randomColor
+                    val colorOfCircleHeader = map.value.firstOrNull()?.colorOfCircleHeaderBackground ?: view.context.randomColor
                     list.add(HeaderRow(title = map.key, showLine = false, headerTextColor = context?.getCompatColor(color = R.color.grey)))
                     list.addAll(with(map.value) {
                         this.applyToAll { it.colorOfCircleHeaderBackground = colorOfCircleHeader; it.colorOfCircleHeader = Constants.getContrastColor(color = colorOfCircleHeader) }
