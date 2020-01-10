@@ -53,15 +53,11 @@ class ShareTextFragment : Fragment() {
     }
 
     private fun configureUI(view: View) {
-        view.messageTextFieldLayout.setActionDoneListener { shareTextViewModel?.outcomeMessageModelString = initJsonMessageObject(type = Constants.textType, instantValue = false, body = it) }
-        view.messageTextFieldLayout.sendMessageButtonListener { shareTextViewModel?.outcomeMessageModelString = initJsonMessageObject(type = Constants.textType, instantValue = false, body = it) }
+        view.messageTextFieldLayout.setActionDoneListener { sendMessage(body = it.takeIf { it.isNotEmpty() } ?: return@setActionDoneListener) }
+        view.messageTextFieldLayout.sendMessageButtonListener { sendMessage(body = it.takeIf { it.isNotEmpty() } ?: return@sendMessageButtonListener) }
 
         // RecyclerView
         listOfMessages.add(EmptyRow(title = resources.getString(R.string.start_sharing_text), icon = R.drawable.share_text_header_icon))
-        /*listOfMessages.addAll(arrayOf(MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false),
-            MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false),
-            MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false),
-            MessageModel(connectionState = true, type = "text/plain", body = "Hello Ubuntu 19.10", isInstantMessage = false)))*/
         val flexLayoutManager = FlexboxLayoutManager(context, FlexDirection.ROW)
         flexLayoutManager.justifyContent = JustifyContent.CENTER
         flexLayoutManager.alignItems = AlignItems.CENTER
@@ -75,6 +71,10 @@ class ShareTextFragment : Fragment() {
             messagesViewType = if (it.isNotEmpty()) MessagesViewType.EDIT else MessagesViewType.VIEW
             if (it.isNotEmpty()) setSelectedMessagesCount(size = it.size)
         })
+    }
+
+    private fun sendMessage(body: String) {
+        shareTextViewModel?.outcomeMessageModelString = initJsonMessageObject(type = Constants.textType, instantValue = false, body = body)
     }
 
     private fun setSelectedMessagesCount(size: Int) {
