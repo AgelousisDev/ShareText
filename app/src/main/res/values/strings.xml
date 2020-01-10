@@ -33,4 +33,5 @@
     <string name="search_text_here">Search here&#8230;</string>
     <string name="empty_saved_texts">You haven\'t saved any text yet&#8230;</string>
     <string name="search_empty_result_text_with_value">No results found with \'%s\'</string>
+    <string name="share_text_project_label">ShareText Project</string>
 </resources>

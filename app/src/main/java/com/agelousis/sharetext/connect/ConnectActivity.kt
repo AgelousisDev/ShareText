@@ -7,18 +7,15 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import com.agelousis.sharetext.R
-import com.agelousis.sharetext.connect.adapters.ContactAdapter
-import com.agelousis.sharetext.connect.enums.ContactType
 import com.agelousis.sharetext.connect.options_sheet.BottomSheetFragment
 import com.agelousis.sharetext.connect.service.ConnectService
+import com.agelousis.sharetext.contact.ContactActivity
 import com.agelousis.sharetext.custom.dialogs.BasicDialog
 import com.agelousis.sharetext.custom.dialogs.BasicDialogType
 import com.agelousis.sharetext.custom.loader_dialog.LoaderDialog
 import com.agelousis.sharetext.main.MainActivity
 import com.agelousis.sharetext.main.ui.enumerations.FragmentViewType
-import com.agelousis.sharetext.main.ui.share_text.models.HeaderRow
 import com.agelousis.sharetext.utilities.*
 import com.agelousis.sharetext.utilities.extensions.*
 import kotlinx.android.synthetic.main.activity_connect.*
@@ -29,7 +26,6 @@ class ConnectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connect)
         setupUI()
-        configureRecyclerView()
     }
 
     private fun setupUI() {
@@ -38,6 +34,7 @@ class ConnectActivity : AppCompatActivity() {
 
         instructionsIconButton.setOnClickListener { BasicDialog.show(supportFragmentManager = supportFragmentManager, dialogType = BasicDialogType(title = resources.getString(R.string.instructions_label),text = resources.getString(R.string.share_text_instructions), icon = R.drawable.ic_info, headerBackgroundColor = ContextCompat.getColor(this@ConnectActivity, R.color.colorAccent))) }
         moreButton.setOnClickListener { BottomSheetFragment.show(supportFragmentManager = supportFragmentManager) }
+        contactUsButton.setOnClickListener { startActivity(Intent(this@ConnectActivity, ContactActivity::class.java)) }
         connectButton.setOnClickListener {
             isFormValidated {
                 if (getSharedPreferences(Constants.PREFERENCES_TAG, Context.MODE_PRIVATE).areIPAddressesRemembered)
@@ -76,16 +73,6 @@ class ConnectActivity : AppCompatActivity() {
             portLayout.text?.isEmpty() == true -> portLayout.setErrorMessage(message = resources.getString(R.string.field_required_error))
             else -> completionBlock()
         }
-    }
-
-    private fun configureRecyclerView() {
-        val adapter = ContactAdapter(contactList = arrayListOf(HeaderRow(title = resources.getString(R.string.contact_developer_header_label)), ContactType.FACEBOOK, ContactType.INSTAGRAM, ContactType.LINKEDIN, ContactType.EMAIL))
-        val gridLayoutManager = GridLayoutManager(this@ConnectActivity, 4)
-        gridLayoutManager.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int) = when(position) { 0 -> 4; else -> 1 }
-        }
-        contactRecyclerView.layoutManager = gridLayoutManager
-        contactRecyclerView.adapter = adapter
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
