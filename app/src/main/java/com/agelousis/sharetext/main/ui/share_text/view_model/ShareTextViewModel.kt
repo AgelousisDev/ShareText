@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.AsyncTask
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.agelousis.sharetext.application.MainApplication
 import com.agelousis.sharetext.client_socket.ClientSocketIncomeService
 import com.agelousis.sharetext.client_socket.ClientSocketOutcomeServive
 import com.agelousis.sharetext.client_socket.interfaces.IncomeMessage
@@ -42,10 +43,10 @@ class ShareTextViewModel : ViewModel(), IncomeMessage {
         message.whenNull {
             connectionStateLiveData.value = false
         }.otherwise {
-            notificationServiceBlock?.invoke(it)
+            if (MainApplication.isOnBackground) notificationServiceBlock?.invoke(it)
             connectionStateLiveData.value = it.connectionState
             if (!it.connectionState) clientSocketIncomeService?.cancel(true)
-            if (it.connectionState) messageModelLiveData.value = it
+            if (it.connectionState && !MainApplication.isOnBackground) messageModelLiveData.value = it
         }
     }
 

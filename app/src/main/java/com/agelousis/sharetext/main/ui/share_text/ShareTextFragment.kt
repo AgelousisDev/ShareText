@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.agelousis.sharetext.R
+import com.agelousis.sharetext.application.MainApplication
 import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.main.MainActivity
 import com.agelousis.sharetext.main.ui.saved.SavedFragment
@@ -99,19 +100,17 @@ class ShareTextFragment : Fragment() {
             }
         })
         shareTextViewModel?.notificationServiceBlock = { messageModel ->
-            if ((activity as? MainActivity)?.isOnBackground == true) {
-                addMessageModel(messageModel = messageModel)
-                context?.startService(with(Intent(context, NotificationService::class.java)) {
-                    putExtra(
-                        NotificationService.SERVICE_MESSAGE_MODEL_EXTRA,
-                        ServiceMessageModel(
-                            channelName = (activity as? MainActivity)?.serverHost?.hostName ?: "",
-                            body = messageModel.body ?: ""
-                        )
+            addMessageModel(messageModel = messageModel)
+            context?.startService(with(Intent(context, NotificationService::class.java)) {
+                putExtra(
+                    NotificationService.SERVICE_MESSAGE_MODEL_EXTRA,
+                    ServiceMessageModel(
+                        channelName = (activity as? MainActivity)?.serverHost?.hostName ?: "",
+                        body = messageModel.body ?: ""
                     )
-                    this
-                })
-            }
+                )
+                this
+            })
         }
     }
 

@@ -6,7 +6,11 @@ import java.net.Socket
 class MainApplication: Application() {
 
     companion object {
+        // Socket
         var clientSocket: Socket? = null
+
+        // Properties
+        var isOnBackground: Boolean = false
     }
 
 }

@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.agelousis.sharetext.R
+import com.agelousis.sharetext.application.MainApplication
 import com.agelousis.sharetext.client_socket.models.ServerHost
 import com.agelousis.sharetext.custom.dialogs.BasicDialog
 import com.agelousis.sharetext.custom.dialogs.BasicDialogType
@@ -36,7 +37,6 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     val serverHost: ServerHost? by lazy { intent?.extras?.getParcelable<ServerHost?>(SERVER_HOST_EXTRA) }
     val fragmentViewType: FragmentViewType? by lazy { intent?.extras?.getSerializable(FRAGMENT_VIEW_TYPE_EXTRA) as? FragmentViewType }
     var mainViewModel: MainViewModel? = null
-    var isOnBackground = false
 
     override fun onPageScrollStateChanged(state: Int) {}
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
@@ -114,12 +114,12 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
     override fun onPause() {
         super.onPause()
-        isOnBackground = true
+        MainApplication.isOnBackground = true
     }
 
     override fun onResume() {
         super.onResume()
-        isOnBackground = false
+        MainApplication.isOnBackground = false
     }
 
 }

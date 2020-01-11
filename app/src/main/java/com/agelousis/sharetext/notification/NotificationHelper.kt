@@ -35,6 +35,7 @@ object NotificationHelper {
         val intent = Intent(context, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
         val resultPendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        mBuilder.priority = NotificationCompat.PRIORITY_HIGH
         mBuilder.setContentIntent(resultPendingIntent)
         notificationManager.notify(0, mBuilder.build())
     }
