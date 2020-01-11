@@ -1,14 +1,14 @@
-package com.agelousis.sharetext.connect.adapters
+package com.agelousis.sharetext.contact.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.agelousis.sharetext.connect.enums.ContactType
-import com.agelousis.sharetext.connect.view_holders.ContactViewHolder
+import com.agelousis.sharetext.contact.enums.ContactType
+import com.agelousis.sharetext.contact.view_holders.ContactViewHolder
 import com.agelousis.sharetext.databinding.ContactRowLayoutBinding
 import com.agelousis.sharetext.databinding.HeaderRowLayoutBinding
 import com.agelousis.sharetext.main.ui.share_text.models.HeaderRow
-import com.agelousis.sharetext.connect.view_holders.HeaderViewHolder
+import com.agelousis.sharetext.contact.view_holders.HeaderViewHolder
 
 class ContactAdapter(private val contactList: ArrayList<Any>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

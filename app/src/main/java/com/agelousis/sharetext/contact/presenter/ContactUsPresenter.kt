@@ -1,4 +1,4 @@
-package com.agelousis.sharetext.connect.presenter
+package com.agelousis.sharetext.contact.presenter
 
 interface ContactUsPresenter {
     fun onContactClicked()

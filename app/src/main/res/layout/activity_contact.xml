@@ -16,6 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:navigationIcon="?attr/homeAsUpIndicator"
+            android:theme="@style/AppTheme.PopupOverlay"
+            app:contentInsetStartWithNavigation="0dp"
             app:title="@string/share_text_project_label"/>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -23,7 +25,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contactRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layoutAnimation="@anim/layout_animation_fall_down"/>
 

@@ -215,11 +215,7 @@ fun Drawable.fromVector(padding: Int): Bitmap {
     return bitmap
 }
 
-fun <T> Array<out T>.second(): T {
-    if (isEmpty())
-        throw NoSuchElementException("Array is empty.")
-    return this[1]
-}
+fun <T> Array<out T>.secondOrNull(): T? = if (isEmpty()) null else this[1]
 
 fun Context.shareText(content: String) {
     startActivity(with(Intent(Intent.ACTION_SEND)) {

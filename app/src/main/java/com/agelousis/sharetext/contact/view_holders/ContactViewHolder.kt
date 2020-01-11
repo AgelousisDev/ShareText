@@ -1,4 +1,4 @@
-package com.agelousis.sharetext.connect.view_holders
+package com.agelousis.sharetext.contact.view_holders
 
 import android.app.Activity
 import android.content.Context
@@ -7,8 +7,8 @@ import android.net.Uri
 import androidx.core.app.ShareCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.agelousis.sharetext.R
-import com.agelousis.sharetext.connect.enums.ContactType
-import com.agelousis.sharetext.connect.presenter.ContactUsPresenter
+import com.agelousis.sharetext.contact.enums.ContactType
+import com.agelousis.sharetext.contact.presenter.ContactUsPresenter
 import com.agelousis.sharetext.databinding.ContactRowLayoutBinding
 import com.agelousis.sharetext.utilities.Constants
 import com.agelousis.sharetext.utilities.extensions.isPackageInstalled
@@ -20,6 +20,7 @@ class ContactViewHolder(private val context: Context, private val binding: Conta
         binding.presenter = object: ContactUsPresenter {
             override fun onContactClicked() {
                 when(item) {
+                    ContactType.GITHUB -> context.openWebViewIntent(urlString = Constants.githubLink)
                     ContactType.FACEBOOK -> if (context.packageManager.isPackageInstalled(packageName = Constants.facebookPackageName)) {
                         context.startActivity(with(Intent()) {
                             action = Intent.ACTION_VIEW

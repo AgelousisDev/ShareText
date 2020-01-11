@@ -7,11 +7,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.agelousis.sharetext.R
-import com.agelousis.sharetext.connect.view_holders.HeaderViewHolder
+import com.agelousis.sharetext.contact.view_holders.HeaderViewHolder
 import com.agelousis.sharetext.main.ui.saved.enums.SwipeAction
 import com.agelousis.sharetext.main.ui.share_text.view_holders.EmptyViewHolder
 import com.agelousis.sharetext.utilities.extensions.fromVector
-import com.agelousis.sharetext.utilities.extensions.second
+import com.agelousis.sharetext.utilities.extensions.secondOrNull
 
 typealias SwipeActionBlock = (swipeAction: SwipeAction, position: Int) -> Unit
 class SavedTextItemTouchHelper(context: Context, private val swipeActionBlock: SwipeActionBlock): ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.START or ItemTouchHelper.END) {
@@ -43,7 +43,7 @@ class SavedTextItemTouchHelper(context: Context, private val swipeActionBlock: S
                 val iconDest = RectF(itemView.left.toFloat() + width, itemView.top.toFloat() + width, itemView.left.toFloat() + 2 * width, itemView.bottom.toFloat() - width)
                 c.drawBitmap(icon, null, iconDest, paint)
             } else {
-                paint.color = colors.second()
+                paint.color = colors.secondOrNull() ?: Color.WHITE
                 val background = RectF(
                     itemView.right.toFloat() + dX,
                     itemView.top.toFloat(),
@@ -51,7 +51,7 @@ class SavedTextItemTouchHelper(context: Context, private val swipeActionBlock: S
                     itemView.bottom.toFloat()
                 )
                 c.drawRect(background, paint)
-                icon = icons.second()!!
+                icon = icons.secondOrNull()!!
                 val iconDest = RectF(itemView.right.toFloat() - 2 * width, itemView.top.toFloat() + width, itemView.right.toFloat() - width, itemView.bottom.toFloat() - width)
                 c.drawBitmap(icon, null, iconDest, paint)
             }

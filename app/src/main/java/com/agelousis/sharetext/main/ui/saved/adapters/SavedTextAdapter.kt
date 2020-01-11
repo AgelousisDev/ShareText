@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.agelousis.sharetext.R
-import com.agelousis.sharetext.connect.view_holders.HeaderViewHolder
+import com.agelousis.sharetext.contact.view_holders.HeaderViewHolder
 import com.agelousis.sharetext.databinding.EmptyRowLayoutBinding
 import com.agelousis.sharetext.databinding.HeaderRowLayoutBinding
 import com.agelousis.sharetext.databinding.SavedTextRowLayoutBinding
