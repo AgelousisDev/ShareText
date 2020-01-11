@@ -61,7 +61,7 @@ class SavedTextAdapter(private val list: ArrayList<Any>): RecyclerView.Adapter<R
             notifyItemRemoved(headerPosition)
             //notifyItemRangeChanged(headerPosition, list.size)
         }
-        addEmptyViewIf(emptyRow = EmptyRow(title = context.resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty)) {
+        addEmptyViewIf(emptyRow = EmptyRow(title = context.resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty_list)) {
             list.isEmpty()
         }
     }

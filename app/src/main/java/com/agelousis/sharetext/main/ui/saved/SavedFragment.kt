@@ -119,7 +119,7 @@ class SavedFragment : Fragment() {
             list.clear()
             filteredList.clear()
 
-            if ((view.savedTextRecyclerView.adapter as? SavedTextAdapter)?.addEmptyViewIf(EmptyRow(title = resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty)) {
+            if ((view.savedTextRecyclerView.adapter as? SavedTextAdapter)?.addEmptyViewIf(EmptyRow(title = resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty_list)) {
                     savedTextMessageModelList.isEmpty()
                 } == false) {
                 savedTextMessageModelList.groupBy { it.channel }.toSortedMap().forEach { map ->
@@ -151,8 +151,8 @@ class SavedFragment : Fragment() {
                 filteredList.addAll(map.value.filter { savedMessageModel -> savedMessageModel.text.toLowerCase(Locale.getDefault()).contains(unwrappedQuery.toLowerCase(Locale.getDefault())) })
             }
             if (filteredList.isEmpty() && unwrappedQuery.isNotEmpty())
-                filteredList.add(EmptyRow(title = String.format(resources.getString(R.string.search_empty_result_text_with_value), unwrappedQuery), icon = R.drawable.ic_empty))
-            else if (filteredList.isEmpty() && unwrappedQuery.isEmpty()) filteredList.add(EmptyRow(title = resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty))
+                filteredList.add(EmptyRow(title = String.format(resources.getString(R.string.search_empty_result_text_with_value), unwrappedQuery), icon = R.drawable.ic_empty_list))
+            else if (filteredList.isEmpty() && unwrappedQuery.isEmpty()) filteredList.add(EmptyRow(title = resources.getString(R.string.empty_saved_texts), icon = R.drawable.ic_empty_list))
             (view?.savedTextRecyclerView?.adapter as? SavedTextAdapter)?.updateItems()
         }
     }
