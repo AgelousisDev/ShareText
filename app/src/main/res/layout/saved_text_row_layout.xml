@@ -7,11 +7,20 @@
         <variable
             name="model"
             type="com.agelousis.sharetext.main.ui.saved.models.SavedMessageModel" />
+
+        <variable
+            name="presenter"
+            type="com.agelousis.sharetext.main.ui.saved.presenter.SavedTextPresenter" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        android:focusable="true"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:onClick="@{() -> presenter.onSavedTextClicked(model)}"
+        tools:targetApi="M">
 
         <FrameLayout
             android:id="@+id/savedRowChannelHighlightLayout"
