@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.agelousis.sharetext.R
+import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.main.MainActivity
 import com.agelousis.sharetext.main.ui.saved.SavedFragment
 import com.agelousis.sharetext.main.ui.share_text.adapters.ShareTextAdapter
@@ -89,10 +90,7 @@ class ShareTextFragment : Fragment() {
     private fun configureViewModel() {
         shareTextViewModel?.serviceIsStartingReceiving = true
         shareTextViewModel?.messageModelLiveData?.observe(this, Observer { messageModel ->
-            listOfMessages.removeAll { it is EmptyRow }
-            listOfMessages.add(messageModel)
-            (activity as? MainActivity)?.mainViewModel?.newShareTextLiveData?.value = Pair(first = 0, second = listOfMessages.size)
-            (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.updateItems()
+            addMessageModel(messageModel = messageModel)
         })
         shareTextViewModel?.connectionStateLiveData?.observe(this, Observer {
             if (!it) {
@@ -100,13 +98,28 @@ class ShareTextFragment : Fragment() {
                 activity?.finish()
             }
         })
-        shareTextViewModel?.notificationServiceBlock = {
-            if ((activity as? MainActivity)?.isOnBackground == true)
+        shareTextViewModel?.notificationServiceBlock = { messageModel ->
+            if ((activity as? MainActivity)?.isOnBackground == true) {
+                addMessageModel(messageModel = messageModel)
                 context?.startService(with(Intent(context, NotificationService::class.java)) {
-                    putExtra(NotificationService.SERVICE_MESSAGE_MODEL_EXTRA, ServiceMessageModel(channelName = (activity as? MainActivity)?.serverHost?.hostName ?: "", body = it))
+                    putExtra(
+                        NotificationService.SERVICE_MESSAGE_MODEL_EXTRA,
+                        ServiceMessageModel(
+                            channelName = (activity as? MainActivity)?.serverHost?.hostName ?: "",
+                            body = messageModel.body ?: ""
+                        )
+                    )
                     this
                 })
+            }
         }
+    }
+
+    private fun addMessageModel(messageModel: MessageModel) {
+        listOfMessages.removeAll { it is EmptyRow }
+        listOfMessages.add(messageModel)
+        (activity as? MainActivity)?.mainViewModel?.newShareTextLiveData?.value = Pair(first = 0, second = listOfMessages.size)
+        (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.updateItems()
     }
 
     private fun clearSelectedMessages() {

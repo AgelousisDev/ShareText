@@ -42,7 +42,7 @@ class ShareTextViewModel : ViewModel(), IncomeMessage {
         message.whenNull {
             connectionStateLiveData.value = false
         }.otherwise {
-            notificationServiceBlock?.invoke(it.body ?: "")
+            notificationServiceBlock?.invoke(it)
             connectionStateLiveData.value = it.connectionState
             if (!it.connectionState) clientSocketIncomeService?.cancel(true)
             if (it.connectionState) messageModelLiveData.value = it
