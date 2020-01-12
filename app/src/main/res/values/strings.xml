@@ -35,4 +35,5 @@
     <string name="search_empty_result_text_with_value">No results found with \'%s\'</string>
     <string name="share_text_project_label">ShareText Project</string>
     <string name="project_label">Project</string>
+    <string name="copy_label">Copy</string>
 </resources>

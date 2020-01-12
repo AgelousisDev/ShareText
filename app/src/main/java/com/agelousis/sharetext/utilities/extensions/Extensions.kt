@@ -1,9 +1,7 @@
 package com.agelousis.sharetext.utilities.extensions
 
 import android.animation.Animator
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.*
@@ -236,6 +234,12 @@ val Context.randomColor: Int
 inline fun <T> Iterable<T>.applyToAll(action: (T) -> Unit) { for (element in this) action(element) }
 
 inline fun <T> Array<out T>.applyToAll(action: (T) -> Unit) { for (element in this) action(element) }
+
+fun Context.copyText(text: String) {
+    val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+    val clip = ClipData.newPlainText(text, text)
+    clipboard?.setPrimaryClip(clip)
+}
 
 
 

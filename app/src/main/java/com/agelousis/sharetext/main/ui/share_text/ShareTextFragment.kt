@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.agelousis.sharetext.R
-import com.agelousis.sharetext.application.MainApplication
 import com.agelousis.sharetext.client_socket.models.MessageModel
 import com.agelousis.sharetext.main.MainActivity
 import com.agelousis.sharetext.main.ui.saved.SavedFragment
@@ -21,13 +20,12 @@ import com.agelousis.sharetext.main.ui.share_text.view_model.ShareTextViewModel
 import com.agelousis.sharetext.service.NotificationService
 import com.agelousis.sharetext.service.models.ServiceMessageModel
 import com.agelousis.sharetext.utilities.Constants
+import com.agelousis.sharetext.utilities.extensions.copyText
 import com.agelousis.sharetext.utilities.extensions.initJsonMessageObject
 import com.google.android.flexbox.*
 import kotlinx.android.synthetic.main.fragment_share_text.view.*
 
 class ShareTextFragment : Fragment() {
-
-
 
     private var menu: Menu? = null
     var shareTextViewModel: ShareTextViewModel? = null
@@ -127,6 +125,13 @@ class ShareTextFragment : Fragment() {
         (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.updateItems()
     }
 
+    private fun copySelectedMessages() {
+        (view?.shareTextRecyclerView?.adapter as? ShareTextAdapter)?.selectedMessagesLiveData?.value?.let { list ->
+            context?.copyText(text = list.mapNotNull { it.body }.joinToString(separator = System.lineSeparator()))
+        }
+        clearSelectedMessages()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main_activity_menu, menu)
@@ -143,6 +148,7 @@ class ShareTextFragment : Fragment() {
                 }
                 clearSelectedMessages()
             }
+            R.id.menuCopy -> copySelectedMessages()
         }
         return super.onOptionsItemSelected(item)
     }
