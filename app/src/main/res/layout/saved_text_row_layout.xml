@@ -57,7 +57,8 @@
             app:layout_constraintStart_toEndOf="@+id/savedRowChannelHighlightLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/savedRowChannelHighlightLayout"
-            tools:text="Sample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample Message" />
+            tools:text="Sample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample MessageSample Message"
+            app:underline="@{model.text}"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/savedRowDate"

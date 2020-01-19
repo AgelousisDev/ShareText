@@ -17,7 +17,6 @@ import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -69,7 +68,7 @@ fun Context.openWebViewIntent(urlString: String) {
     }
 
 @BindingAdapter("underline")
-    fun setUnderline(view: AppCompatTextView, value: String) {
+    fun setUnderline(view: MaterialTextView, value: String) {
         if (value.isLink) view.text = String.format(view.context.resources.getString(R.string.link_value_text), value).toHtml()
     }
 @BindingAdapter("textColor")
