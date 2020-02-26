@@ -7,7 +7,7 @@ import android.view.*
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.agelousis.sharetext.R
 import com.agelousis.sharetext.client_socket.models.MessageModel
@@ -42,7 +42,7 @@ class ShareTextFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        shareTextViewModel = ViewModelProviders.of(this).get(ShareTextViewModel::class.java)
+        shareTextViewModel = ViewModelProvider(this).get(ShareTextViewModel::class.java)
         return inflater.inflate(R.layout.fragment_share_text, container, false)
     }
 
@@ -67,7 +67,7 @@ class ShareTextFragment : Fragment() {
         view.shareTextRecyclerView.adapter = ShareTextAdapter(list = listOfMessages)
 
         // Selected Messages Observer
-        (view.shareTextRecyclerView.adapter as? ShareTextAdapter)?.selectedMessagesLiveData?.observe(this, Observer {
+        (view.shareTextRecyclerView.adapter as? ShareTextAdapter)?.selectedMessagesLiveData?.observe(viewLifecycleOwner, Observer {
             messagesViewType = if (it.isNotEmpty()) MessagesViewType.EDIT else MessagesViewType.VIEW
             if (it.isNotEmpty()) setSelectedMessagesCount(size = it.size)
         })
@@ -88,10 +88,10 @@ class ShareTextFragment : Fragment() {
 
     private fun configureViewModel() {
         shareTextViewModel?.serviceIsStartingReceiving = true
-        shareTextViewModel?.messageModelLiveData?.observe(this, Observer { messageModel ->
+        shareTextViewModel?.messageModelLiveData?.observe(viewLifecycleOwner, Observer { messageModel ->
             addMessageModel(messageModel = messageModel)
         })
-        shareTextViewModel?.connectionStateLiveData?.observe(this, Observer {
+        shareTextViewModel?.connectionStateLiveData?.observe(viewLifecycleOwner, Observer {
             if (!it) {
                 activity?.setResult(Activity.RESULT_CANCELED)
                 activity?.finish()

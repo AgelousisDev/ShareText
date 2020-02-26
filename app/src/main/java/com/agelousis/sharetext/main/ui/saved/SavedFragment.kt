@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.agelousis.sharetext.R
 import com.agelousis.sharetext.main.MainActivity
@@ -53,7 +53,7 @@ class SavedFragment : Fragment() {
         }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        savedViewModel = ViewModelProviders.of(this).get(SavedViewModel::class.java)
+        savedViewModel = ViewModelProvider(this).get(SavedViewModel::class.java)
         return inflater.inflate(R.layout.fragment_saved, container, false)
     }
 
@@ -112,7 +112,7 @@ class SavedFragment : Fragment() {
 
     private fun addObserverAndFetch(view: View) {
         savedViewModel?.fetchSavedMessageList(context = view.context)
-        savedViewModel?.savedMessageModelList?.observe(this, Observer { savedTextMessageModelList ->
+        savedViewModel?.savedMessageModelList?.observe(viewLifecycleOwner, Observer { savedTextMessageModelList ->
             (activity as? MainActivity)?.mainViewModel?.newShareTextLiveData?.value = Pair(first = 1, second = savedTextMessageModelList.size)
             view.bottomAppBarSearchField.setQuery(null, false)
             viewMode = ViewMode.VIEW_MODE
